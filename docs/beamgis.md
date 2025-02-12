@@ -1,0 +1,4 @@
+ 
+# beamgis module
+
+::: beamgis.beamgis
