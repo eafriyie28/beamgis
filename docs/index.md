@@ -9,7 +9,7 @@
 
 -   Free software: MIT License
 -   Documentation: <https://eafriyie28.github.io/beamgis>
-    
+
 
 ## Features
 
