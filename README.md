@@ -15,3 +15,15 @@
 ## Features
 
 -   TODO
+-
+## Features
+
+-   Create interactive maps
+-   Process geospatial data
+-
+
+## Usage
+```python
+import beamgis
+
+```
