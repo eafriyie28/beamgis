@@ -49,6 +49,10 @@ class Map(folium.Map):
         geojson = folium.GeoJson(data=geojson, **kwargs)
         geojson.add_to(self)
 
+        if zoom_to_layer and gdf is not None:
+            bounds = gdf.total_bounds
+            self.fit_bounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
+
     def add_shp(self, data, **kwargs):
         """Adds a shapefile to the map.
 
