@@ -9,7 +9,7 @@ repos:
           - id: trailing-whitespace
           - id: requirements-txt-fixer
           - id: check-added-large-files
-            args: ["--maxkb=500"]
+            args: ["--maxkb=800"]
 
     - repo: https://github.com/psf/black
       rev: 25.1.0
