@@ -83,6 +83,7 @@ nav:
         - examples/folium.ipynb
         - examples/Notebook_Example.ipynb
         - examples/map.ipynb
+
     - API Reference:
           - beamgis module: beamgis.md
           - common module: common.md
