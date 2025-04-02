@@ -80,7 +80,10 @@ nav:
     - Changelog: changelog.md
     - Report Issues: https://github.com/eafriyie28/beamgis/issues
     - Examples:
-        - examples/intro.ipynb
+        - examples/folium.ipynb
+        - examples/Notebook_Example.ipynb
+        - examples/map.ipynb
     - API Reference:
           - beamgis module: beamgis.md
           - common module: common.md
+          - folium module: foliumap.md
