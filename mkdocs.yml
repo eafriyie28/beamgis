@@ -86,5 +86,6 @@ nav:
 
     - API Reference:
           - beamgis module: beamgis.md
-          - common module: common.md
           - folium module: foliumap.md
+          - common module: common.md
+          -
