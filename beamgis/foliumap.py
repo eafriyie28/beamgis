@@ -53,6 +53,52 @@ class Map(folium.Map):
             bounds = gdf.total_bounds
             self.fit_bounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
 
+    def add_basemap(self, basemap="OpenStreetMap"):
+        """Add basemap to the map using Folium's built-in tiles or a custom TileLayer.
+
+        Args:
+            basemap (str or dict, optional): Basemap name (dotted format) or a custom basemap dict.
+                Examples:
+                    "CartoDB.DarkMatter"
+                    {
+                        "tiles": "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+                        "name": "OpenTopoMap",
+                        "attr": "© OpenTopoMap contributors"
+                    }
+        """
+        # Built-in basemap mapping
+        basemap_mapping = {
+            "OpenStreetMap": "OpenStreetMap",
+            "CartoDB.Positron": "CartoDB positron",
+            "CartoDB.DarkMatter": "CartoDB dark_matter",
+        }
+
+        if isinstance(basemap, str):
+            if basemap not in basemap_mapping:
+                raise ValueError(
+                    f"Basemap '{basemap}' not supported. Available options: {list(basemap_mapping.keys())}"
+                )
+            tile_name = basemap_mapping[basemap]
+            tile_layer = folium.TileLayer(tiles=tile_name, name=basemap, control=True)
+        elif isinstance(basemap, dict):
+            required_keys = {"tiles", "name", "attr"}
+            if not required_keys.issubset(basemap):
+                raise ValueError(
+                    "Custom basemap dict must include 'tiles', 'name', and 'attr'"
+                )
+            tile_layer = folium.TileLayer(
+                tiles=basemap["tiles"],
+                name=basemap["name"],
+                attr=basemap["attr"],
+                control=True,
+            )
+        else:
+            raise TypeError(
+                "Basemap must be a string or a dictionary with 'tiles', 'name', and 'attr'."
+            )
+
+        tile_layer.add_to(self)
+
     def add_shp(self, data, **kwargs):
         """Adds a shapefile to the map.
 
