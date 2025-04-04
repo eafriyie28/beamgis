@@ -42,18 +42,24 @@ class Map(ipyleaflet.Map):
         layer = ipyleaflet.TileLayer(url=url, name="Google Map")
         self.add(layer)
 
-    def add_geojson(self, data, zoom_to_layer=True, hover_style=None, **kwargs):
+    def add_geojson(
+        self,
+        data,
+        zoom_to_layer=True,
+        hover_style=None,
+        **kwargs,
+    ):
         """Adds a GeoJSON layer to the map.
+
         Args:
-             data (str or dict): The GeoJSON data. Can be a file path (str) or a dictionary.
+            data (str or dict): The GeoJSON data. Can be a file path (str) or a dictionary.
             zoom_to_layer (bool, optional): Whether to zoom to the layer's bounds. Defaults to True.
-             hover_style (dict, optional): Style to apply when hovering over features. Defaults to {"color": "yellow", "fillOpacity": 0.2}.
-             **kwargs: Additional keyword arguments for the ipyleaflet.GeoJSON layer.
+            hover_style (dict, optional): Style to apply when hovering over features. Defaults to {"color": "yellow", "fillOpacity": 0.2}.
+            **kwargs: Additional keyword arguments for the ipyleaflet.GeoJSON layer.
+
         Raises:
-             ValueError: If the data type is invalid.
-
+            ValueError: If the data type is invalid.
         """
-
         import geopandas as gpd
 
         if hover_style is None:
@@ -64,14 +70,10 @@ class Map(ipyleaflet.Map):
             geojson = gdf.__geo_interface__
         elif isinstance(data, dict):
             geojson = data
-            gdf = None  # No GeoDataFrame available for bounds calculation
-        else:
-            raise ValueError("Invalid data type for GeoJSON layer")
-
         layer = ipyleaflet.GeoJSON(data=geojson, hover_style=hover_style, **kwargs)
         self.add_layer(layer)
 
-        if zoom_to_layer and gdf is not None:
+        if zoom_to_layer:
             bounds = gdf.total_bounds
             self.fit_bounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
 
@@ -93,7 +95,7 @@ class Map(ipyleaflet.Map):
         """Adds a GeoDataFrame to the map.
 
         Args:
-            gdf (GeoDataFrame): The GeoDataFrame to add.
+            gdf (geopandas.GeoDataFrame): The GeoDataFrame to add.
             **kwargs: Additional keyword arguments for the GeoJSON layer.
         """
         gdf = gdf.to_crs(epsg=4326)

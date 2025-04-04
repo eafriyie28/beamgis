@@ -83,12 +83,10 @@ nav:
         - examples/folium.ipynb
         - examples/Notebook_Example.ipynb
         - examples/map.ipynb
-        - examples/raster.ipynb
         - examples/split_map.ipynb
 
     - API Reference:
           - beamgis module: beamgis.md
           - folium module: foliumap.md
           - common module: common.md
-          - raster module: raster.md
           - split_map module: split_map.md
