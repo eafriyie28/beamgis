@@ -678,6 +678,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#beamgis.foliumap.Map.add_basemap" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_basemap()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#beamgis.foliumap.Map.add_gdf" class="md-nav__link">
     <span class="md-ellipsis">
       add_gdf()
@@ -815,6 +824,15 @@
   <a href="#beamgis.foliumap.Map.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       __init__()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beamgis.foliumap.Map.add_basemap" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_basemap()
     </span>
   </a>
   
@@ -980,6 +998,52 @@ Map            (<span title="folium.folium.Map">Map</span>)
             <span class="n">bounds</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">total_bounds</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit_bounds</span><span class="p">([[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]]])</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add basemap to the map using Folium&#39;s built-in tiles or a custom TileLayer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            basemap (str or dict, optional): Basemap name (dotted format) or a custom basemap dict.</span>
+<span class="sd">                Examples:</span>
+<span class="sd">                    &quot;CartoDB.DarkMatter&quot;</span>
+<span class="sd">                    {</span>
+<span class="sd">                        &quot;tiles&quot;: &quot;https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png&quot;,</span>
+<span class="sd">                        &quot;name&quot;: &quot;OpenTopoMap&quot;,</span>
+<span class="sd">                        &quot;attr&quot;: &quot;© OpenTopoMap contributors&quot;</span>
+<span class="sd">                    }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Built-in basemap mapping</span>
+        <span class="n">basemap_mapping</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">:</span> <span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CartoDB.Positron&quot;</span><span class="p">:</span> <span class="s2">&quot;CartoDB positron&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CartoDB.DarkMatter&quot;</span><span class="p">:</span> <span class="s2">&quot;CartoDB dark_matter&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">basemap</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">basemap_mapping</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Basemap &#39;</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&#39; not supported. Available options: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">basemap_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="n">tile_name</span> <span class="o">=</span> <span class="n">basemap_mapping</span><span class="p">[</span><span class="n">basemap</span><span class="p">]</span>
+            <span class="n">tile_layer</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">tiles</span><span class="o">=</span><span class="n">tile_name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">basemap</span><span class="p">,</span> <span class="n">control</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">required_keys</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tiles&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;attr&quot;</span><span class="p">}</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">required_keys</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">basemap</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Custom basemap dict must include &#39;tiles&#39;, &#39;name&#39;, and &#39;attr&#39;&quot;</span>
+                <span class="p">)</span>
+            <span class="n">tile_layer</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span>
+                <span class="n">tiles</span><span class="o">=</span><span class="n">basemap</span><span class="p">[</span><span class="s2">&quot;tiles&quot;</span><span class="p">],</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">basemap</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                <span class="n">attr</span><span class="o">=</span><span class="n">basemap</span><span class="p">[</span><span class="s2">&quot;attr&quot;</span><span class="p">],</span>
+                <span class="n">control</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Basemap must be a string or a dictionary with &#39;tiles&#39;, &#39;name&#39;, and &#39;attr&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">tile_layer</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">add_shp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a shapefile to the map.</span>
 
@@ -1130,6 +1194,101 @@ Map            (<span title="folium.folium.Map">Map</span>)
 <span class="sd">        **kwargs: Additional keyword arguments for the folium.Map class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="beamgis.foliumap.Map.add_basemap" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s1">&#39;OpenStreetMap&#39;</span><span class="p">)</span></code>
+
+
+<a href="#beamgis.foliumap.Map.add_basemap" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Add basemap to the map using Folium's built-in tiles or a custom TileLayer.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>basemap</code></td>
+        <td><code>str or dict</code></td>
+        <td><p>Basemap name (dotted format) or a custom basemap dict.
+Examples:
+    "CartoDB.DarkMatter"
+    {
+        "tiles": "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+        "name": "OpenTopoMap",
+        "attr": "© OpenTopoMap contributors"
+    }</p></td>
+        <td><code>&#39;OpenStreetMap&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add basemap to the map using Folium&#39;s built-in tiles or a custom TileLayer.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        basemap (str or dict, optional): Basemap name (dotted format) or a custom basemap dict.</span>
+<span class="sd">            Examples:</span>
+<span class="sd">                &quot;CartoDB.DarkMatter&quot;</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;tiles&quot;: &quot;https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png&quot;,</span>
+<span class="sd">                    &quot;name&quot;: &quot;OpenTopoMap&quot;,</span>
+<span class="sd">                    &quot;attr&quot;: &quot;© OpenTopoMap contributors&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Built-in basemap mapping</span>
+    <span class="n">basemap_mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">:</span> <span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CartoDB.Positron&quot;</span><span class="p">:</span> <span class="s2">&quot;CartoDB positron&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CartoDB.DarkMatter&quot;</span><span class="p">:</span> <span class="s2">&quot;CartoDB dark_matter&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">basemap</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">basemap_mapping</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Basemap &#39;</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&#39; not supported. Available options: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">basemap_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">tile_name</span> <span class="o">=</span> <span class="n">basemap_mapping</span><span class="p">[</span><span class="n">basemap</span><span class="p">]</span>
+        <span class="n">tile_layer</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">tiles</span><span class="o">=</span><span class="n">tile_name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">basemap</span><span class="p">,</span> <span class="n">control</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">basemap</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">required_keys</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tiles&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;attr&quot;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">required_keys</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">basemap</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Custom basemap dict must include &#39;tiles&#39;, &#39;name&#39;, and &#39;attr&#39;&quot;</span>
+            <span class="p">)</span>
+        <span class="n">tile_layer</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span>
+            <span class="n">tiles</span><span class="o">=</span><span class="n">basemap</span><span class="p">[</span><span class="s2">&quot;tiles&quot;</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">basemap</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+            <span class="n">attr</span><span class="o">=</span><span class="n">basemap</span><span class="p">[</span><span class="s2">&quot;attr&quot;</span><span class="p">],</span>
+            <span class="n">control</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Basemap must be a string or a dictionary with &#39;tiles&#39;, &#39;name&#39;, and &#39;attr&#39;.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">tile_layer</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
