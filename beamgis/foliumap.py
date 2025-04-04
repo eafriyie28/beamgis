@@ -151,6 +151,15 @@ class Map(folium.Map):
         folium.LayerControl().add_to(self)
 
     def add_split_map(self, left="openstreetmap", right="cartodbpositron", **kwargs):
+        """
+        Adds a split map view to the current map, allowing users to compare two different map layers side by side.
+        Parameters:
+            left (str): The tile layer to display on the left side of the split map. Defaults to "openstreetmap".
+            right (str): The tile layer to display on the right side of the split map. Defaults to "cartodbpositron".
+            **kwargs: Additional keyword arguments to customize the tile layers.
+        Returns:
+            None
+        """
 
         # map_types = {
         #     "ROADMAP": "m",
