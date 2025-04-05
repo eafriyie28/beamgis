@@ -14,13 +14,9 @@
 
 ## Features
 
--   TODO
--
-## Features
-
--   Create interactive maps
--   Process geospatial data
--
+-   Geospatial Data Processing: Read/write spatial formats, perform CRS transformations, geometry operations    (buffer, clip, dissolve), spatial joins, and querying.
+-   Interactive Mapping: Create dynamic maps with layers, popups, tooltips, choropleths, time sliders, and export to HTML or notebooks.
+-   Spatial Analysis & Visualization: Support for clustering, density analysis, routing, proximity tools, zonal statistics, and customizable map styles.
 
 ## Usage
 ```python
