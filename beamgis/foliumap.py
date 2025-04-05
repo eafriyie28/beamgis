@@ -2,6 +2,7 @@
 
 import folium
 import folium.plugins
+from localtileserver import get_folium_tile_layer, TileClient
 
 
 class Map(folium.Map):
@@ -150,37 +151,68 @@ class Map(folium.Map):
         """Adds a layer control widget to the map."""
         folium.LayerControl().add_to(self)
 
-    def add_split_map(self, left="openstreetmap", right="cartodbpositron", **kwargs):
+    def add_split_map(
+        self,
+        left="openstreetmap",
+        right="cartodbpositron",
+        colormap_left=None,
+        colormap_right=None,
+        opacity_left=1.0,
+        opacity_right=1.0,
+        **kwargs,
+    ):
         """
         Adds a split map view to the current map, allowing users to compare two different map layers side by side.
+
         Parameters:
-            left (str): The tile layer to display on the left side of the split map. Defaults to "openstreetmap".
-            right (str): The tile layer to display on the right side of the split map. Defaults to "cartodbpositron".
+            left (str): The tile layer or path to a raster file for the left side of the map.
+            right (str): The tile layer or path to a raster file for the right side of the map.
+            colormap_left (callable): Colormap function for the left raster layer (if applicable).
+            colormap_right (callable): Colormap function for the right raster layer (if applicable).
+            opacity_left (float): Opacity for the left layer.
+            opacity_right (float): Opacity for the right layer.
             **kwargs: Additional keyword arguments to customize the tile layers.
+
         Returns:
             None
         """
 
-        # map_types = {
-        #     "ROADMAP": "m",
-        #     "SATELLITE": "s",
-        #     "HYBRID": "y",
-        #     "TERRAIN": "p",
-        # }
+        # Handle left layer
+        if isinstance(left, str) and left.lower().endswith((".tif", ".tiff")):
+            client_left = TileClient(left)
+            layer_left = get_folium_tile_layer(
+                client_left,
+                name="Left Layer",
+                colormap=colormap_left,
+                opacity=opacity_left,
+                **kwargs,
+            )
+        else:
+            layer_left = folium.TileLayer(
+                left, name="Left Layer", opacity=opacity_left, **kwargs
+            )
 
-        # map_type = map_types[map_type.upper()]
+        # Handle right layer
+        if isinstance(right, str) and right.lower().endswith((".tif", ".tiff")):
+            client_right = TileClient(right)
+            layer_right = get_folium_tile_layer(
+                client_right,
+                name="Right Layer",
+                colormap=colormap_right,
+                opacity=opacity_right,
+                **kwargs,
+            )
+        else:
+            layer_right = folium.TileLayer(
+                right, name="Right Layer", opacity=opacity_right, **kwargs
+            )
 
-        # url = (
-        #     f"https://mt1.google.com/vt/lyrs={map_type.lower()}&x={{x}}&y={{y}}&z={{z}}"
-        # )
+        # Add layers to map
+        layer_left.add_to(self)
+        layer_right.add_to(self)
 
-        layer_right = folium.TileLayer(left, **kwargs)
-        layer_left = folium.TileLayer(right, **kwargs)
-
+        # Add split map control
         sbs = folium.plugins.SideBySideLayers(
             layer_left=layer_left, layer_right=layer_right
         )
-
-        layer_left.add_to(self)
-        layer_right.add_to(self)
         sbs.add_to(self)
