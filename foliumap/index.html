@@ -523,6 +523,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/split_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Split map
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -723,6 +746,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#beamgis.foliumap.Map.add_split_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_split_map()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#beamgis.foliumap.Map.add_vector" class="md-nav__link">
     <span class="md-ellipsis">
       add_vector()
@@ -758,6 +790,29 @@
   
   <span class="md-ellipsis">
     common module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../split_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    split_map module
     
   </span>
   
@@ -875,6 +930,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#beamgis.foliumap.Map.add_split_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_split_map()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#beamgis.foliumap.Map.add_vector" class="md-nav__link">
     <span class="md-ellipsis">
       add_vector()
@@ -948,7 +1012,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
       <p>A custom Map class that extends folium.Map.</p>
 
         <details class="quote">
-          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Map</span><span class="p">(</span><span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A custom Map class that extends folium.Map.&quot;&quot;&quot;</span>
 
@@ -1095,30 +1159,70 @@ Map            (<span title="folium.folium.Map">Map</span>)
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a layer control widget to the map.&quot;&quot;&quot;</span>
         <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_split_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="s2">&quot;openstreetmap&quot;</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s2">&quot;cartodbpositron&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_split_map</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">left</span><span class="o">=</span><span class="s2">&quot;openstreetmap&quot;</span><span class="p">,</span>
+        <span class="n">right</span><span class="o">=</span><span class="s2">&quot;cartodbpositron&quot;</span><span class="p">,</span>
+        <span class="n">colormap_left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a split map view to the current map, allowing users to compare two different map layers side by side.</span>
 
-        <span class="c1"># map_types = {</span>
-        <span class="c1">#     &quot;ROADMAP&quot;: &quot;m&quot;,</span>
-        <span class="c1">#     &quot;SATELLITE&quot;: &quot;s&quot;,</span>
-        <span class="c1">#     &quot;HYBRID&quot;: &quot;y&quot;,</span>
-        <span class="c1">#     &quot;TERRAIN&quot;: &quot;p&quot;,</span>
-        <span class="c1"># }</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            left (str): The tile layer or path to a raster file for the left side of the map.</span>
+<span class="sd">            right (str): The tile layer or path to a raster file for the right side of the map.</span>
+<span class="sd">            colormap_left (callable): Colormap function for the left raster layer (if applicable).</span>
+<span class="sd">            colormap_right (callable): Colormap function for the right raster layer (if applicable).</span>
+<span class="sd">            opacity_left (float): Opacity for the left layer.</span>
+<span class="sd">            opacity_right (float): Opacity for the right layer.</span>
+<span class="sd">            **kwargs: Additional keyword arguments to customize the tile layers.</span>
 
-        <span class="c1"># map_type = map_types[map_type.upper()]</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># url = (</span>
-        <span class="c1">#     f&quot;https://mt1.google.com/vt/lyrs={map_type.lower()}&amp;x={{x}}&amp;y={{y}}&amp;z={{z}}&quot;</span>
-        <span class="c1"># )</span>
+        <span class="c1"># Handle left layer</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">left</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="s2">&quot;.tiff&quot;</span><span class="p">)):</span>
+            <span class="n">client_left</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">layer_left</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
+                <span class="n">client_left</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Left Layer&quot;</span><span class="p">,</span>
+                <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_left</span><span class="p">,</span>
+                <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_left</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">layer_left</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span>
+                <span class="n">left</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Left Layer&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_left</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
 
-        <span class="n">layer_right</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">layer_left</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># Handle right layer</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">right</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="s2">&quot;.tiff&quot;</span><span class="p">)):</span>
+            <span class="n">client_right</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+            <span class="n">layer_right</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
+                <span class="n">client_right</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Right Layer&quot;</span><span class="p">,</span>
+                <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_right</span><span class="p">,</span>
+                <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_right</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">layer_right</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span>
+                <span class="n">right</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Right Layer&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
 
+        <span class="c1"># Add layers to map</span>
+        <span class="n">layer_left</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">layer_right</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Add split map control</span>
         <span class="n">sbs</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">SideBySideLayers</span><span class="p">(</span>
             <span class="n">layer_left</span><span class="o">=</span><span class="n">layer_left</span><span class="p">,</span> <span class="n">layer_right</span><span class="o">=</span><span class="n">layer_right</span>
         <span class="p">)</span>
-
-        <span class="n">layer_left</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">layer_right</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">sbs</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -1184,7 +1288,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initializes the Map object.</span>
 
@@ -1243,7 +1347,7 @@ Examples:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add basemap to the map using Folium&#39;s built-in tiles or a custom TileLayer.</span>
 
@@ -1337,7 +1441,7 @@ Examples:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a GeoDataFrame to the map.</span>
 
@@ -1423,7 +1527,7 @@ Examples:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">data</span><span class="p">,</span>
@@ -1482,7 +1586,7 @@ Examples:
       <p>Adds a layer control widget to the map.</p>
 
         <details class="quote">
-          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a layer control widget to the map.&quot;&quot;&quot;</span>
     <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -1534,7 +1638,7 @@ Examples:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_shp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a shapefile to the map.</span>
 
@@ -1554,6 +1658,164 @@ Examples:
 
   </div>
 
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="beamgis.foliumap.Map.add_split_map" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_split_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="s1">&#39;openstreetmap&#39;</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s1">&#39;cartodbpositron&#39;</span><span class="p">,</span> <span class="n">colormap_left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#beamgis.foliumap.Map.add_split_map" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Adds a split map view to the current map, allowing users to compare two different map layers side by side.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>left</code></td>
+        <td><code>str</code></td>
+        <td><p>The tile layer or path to a raster file for the left side of the map.</p></td>
+        <td><code>&#39;openstreetmap&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>right</code></td>
+        <td><code>str</code></td>
+        <td><p>The tile layer or path to a raster file for the right side of the map.</p></td>
+        <td><code>&#39;cartodbpositron&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>colormap_left</code></td>
+        <td><code>callable</code></td>
+        <td><p>Colormap function for the left raster layer (if applicable).</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>colormap_right</code></td>
+        <td><code>callable</code></td>
+        <td><p>Colormap function for the right raster layer (if applicable).</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>opacity_left</code></td>
+        <td><code>float</code></td>
+        <td><p>Opacity for the left layer.</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>opacity_right</code></td>
+        <td><code>float</code></td>
+        <td><p>Opacity for the right layer.</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional keyword arguments to customize the tile layers.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td><p>None</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_split_map</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">left</span><span class="o">=</span><span class="s2">&quot;openstreetmap&quot;</span><span class="p">,</span>
+    <span class="n">right</span><span class="o">=</span><span class="s2">&quot;cartodbpositron&quot;</span><span class="p">,</span>
+    <span class="n">colormap_left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">colormap_right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">opacity_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">opacity_right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds a split map view to the current map, allowing users to compare two different map layers side by side.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        left (str): The tile layer or path to a raster file for the left side of the map.</span>
+<span class="sd">        right (str): The tile layer or path to a raster file for the right side of the map.</span>
+<span class="sd">        colormap_left (callable): Colormap function for the left raster layer (if applicable).</span>
+<span class="sd">        colormap_right (callable): Colormap function for the right raster layer (if applicable).</span>
+<span class="sd">        opacity_left (float): Opacity for the left layer.</span>
+<span class="sd">        opacity_right (float): Opacity for the right layer.</span>
+<span class="sd">        **kwargs: Additional keyword arguments to customize the tile layers.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Handle left layer</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">left</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="s2">&quot;.tiff&quot;</span><span class="p">)):</span>
+        <span class="n">client_left</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+        <span class="n">layer_left</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
+            <span class="n">client_left</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Left Layer&quot;</span><span class="p">,</span>
+            <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_left</span><span class="p">,</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_left</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">layer_left</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span>
+            <span class="n">left</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Left Layer&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_left</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Handle right layer</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">right</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="s2">&quot;.tiff&quot;</span><span class="p">)):</span>
+        <span class="n">client_right</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">layer_right</span> <span class="o">=</span> <span class="n">get_folium_tile_layer</span><span class="p">(</span>
+            <span class="n">client_right</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Right Layer&quot;</span><span class="p">,</span>
+            <span class="n">colormap</span><span class="o">=</span><span class="n">colormap_right</span><span class="p">,</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_right</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">layer_right</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span>
+            <span class="n">right</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Right Layer&quot;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity_right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Add layers to map</span>
+    <span class="n">layer_left</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">layer_right</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># Add split map control</span>
+    <span class="n">sbs</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">SideBySideLayers</span><span class="p">(</span>
+        <span class="n">layer_left</span><span class="o">=</span><span class="n">layer_left</span><span class="p">,</span> <span class="n">layer_right</span><span class="o">=</span><span class="n">layer_right</span>
+    <span class="p">)</span>
+    <span class="n">sbs</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -1612,7 +1874,7 @@ Examples:
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\foliumap.py</code></summary>
+          <summary>Source code in <code>beamgis/foliumap.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds vector data to the map.</span>
 

@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://eafriyie28.github.io/beamgis/beamgis/">
       
       
-        <link rel="prev" href="../examples/map/">
+        <link rel="prev" href="../examples/split_map/">
       
       
         <link rel="next" href="../foliumap/">
@@ -523,6 +523,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/split_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Split map
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -795,6 +818,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../split_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    split_map module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1001,7 +1047,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
 
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Map</span><span class="p">(</span><span class="n">ipyleaflet</span><span class="o">.</span><span class="n">Map</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;600px&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
@@ -1040,18 +1086,24 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Google Map&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a GeoJSON layer to the map.</span>
+
 <span class="sd">        Args:</span>
-<span class="sd">             data (str or dict): The GeoJSON data. Can be a file path (str) or a dictionary.</span>
+<span class="sd">            data (str or dict): The GeoJSON data. Can be a file path (str) or a dictionary.</span>
 <span class="sd">            zoom_to_layer (bool, optional): Whether to zoom to the layer&#39;s bounds. Defaults to True.</span>
-<span class="sd">             hover_style (dict, optional): Style to apply when hovering over features. Defaults to {&quot;color&quot;: &quot;yellow&quot;, &quot;fillOpacity&quot;: 0.2}.</span>
-<span class="sd">             **kwargs: Additional keyword arguments for the ipyleaflet.GeoJSON layer.</span>
+<span class="sd">            hover_style (dict, optional): Style to apply when hovering over features. Defaults to {&quot;color&quot;: &quot;yellow&quot;, &quot;fillOpacity&quot;: 0.2}.</span>
+<span class="sd">            **kwargs: Additional keyword arguments for the ipyleaflet.GeoJSON layer.</span>
+
 <span class="sd">        Raises:</span>
-<span class="sd">             ValueError: If the data type is invalid.</span>
-
+<span class="sd">            ValueError: If the data type is invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
         <span class="k">if</span> <span class="n">hover_style</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1062,14 +1114,10 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
             <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">geojson</span> <span class="o">=</span> <span class="n">data</span>
-            <span class="n">gdf</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># No GeoDataFrame available for bounds calculation</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid data type for GeoJSON layer&quot;</span><span class="p">)</span>
-
         <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">GeoJSON</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="n">hover_style</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">zoom_to_layer</span> <span class="ow">and</span> <span class="n">gdf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">zoom_to_layer</span><span class="p">:</span>
             <span class="n">bounds</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">total_bounds</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit_bounds</span><span class="p">([[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]]])</span>
 
@@ -1091,7 +1139,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a GeoDataFrame to the map.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            gdf (GeoDataFrame): The GeoDataFrame to add.</span>
+<span class="sd">            gdf (geopandas.GeoDataFrame): The GeoDataFrame to add.</span>
 <span class="sd">            **kwargs: Additional keyword arguments for the GeoJSON layer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
@@ -1228,7 +1276,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenTopoMap&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add basemap to the map.</span>
 
@@ -1274,7 +1322,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   <tbody>
       <tr>
         <td><code>gdf</code></td>
-        <td><code>GeoDataFrame</code></td>
+        <td><code>geopandas.GeoDataFrame</code></td>
         <td><p>The GeoDataFrame to add.</p></td>
         <td><em>required</em></td>
       </tr>
@@ -1287,12 +1335,12 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a GeoDataFrame to the map.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        gdf (GeoDataFrame): The GeoDataFrame to add.</span>
+<span class="sd">        gdf (geopandas.GeoDataFrame): The GeoDataFrame to add.</span>
 <span class="sd">        **kwargs: Additional keyword arguments for the GeoJSON layer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
@@ -1337,14 +1385,26 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <td><p>The GeoJSON data. Can be a file path (str) or a dictionary.</p></td>
         <td><em>required</em></td>
       </tr>
+      <tr>
+        <td><code>zoom_to_layer</code></td>
+        <td><code>bool</code></td>
+        <td><p>Whether to zoom to the layer's bounds. Defaults to True.</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>hover_style</code></td>
+        <td><code>dict</code></td>
+        <td><p>Style to apply when hovering over features. Defaults to {"color": "yellow", "fillOpacity": 0.2}.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional keyword arguments for the ipyleaflet.GeoJSON layer.</p></td>
+        <td><code>{}</code></td>
+      </tr>
   </tbody>
-</table>      <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>zoom_to_layer (bool, optional): Whether to zoom to the layer&#39;s bounds. Defaults to True.
- hover_style (dict, optional): Style to apply when hovering over features. Defaults to {&quot;color&quot;: &quot;yellow&quot;, &quot;fillOpacity&quot;: 0.2}.
- **kwargs: Additional keyword arguments for the ipyleaflet.GeoJSON layer.
-</code></pre></div></td></tr></table></div>
-
+</table>
 <p><strong>Exceptions:</strong></p>
 <table>
   <thead>
@@ -1361,19 +1421,25 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a GeoJSON layer to the map.</span>
+
 <span class="sd">    Args:</span>
-<span class="sd">         data (str or dict): The GeoJSON data. Can be a file path (str) or a dictionary.</span>
+<span class="sd">        data (str or dict): The GeoJSON data. Can be a file path (str) or a dictionary.</span>
 <span class="sd">        zoom_to_layer (bool, optional): Whether to zoom to the layer&#39;s bounds. Defaults to True.</span>
-<span class="sd">         hover_style (dict, optional): Style to apply when hovering over features. Defaults to {&quot;color&quot;: &quot;yellow&quot;, &quot;fillOpacity&quot;: 0.2}.</span>
-<span class="sd">         **kwargs: Additional keyword arguments for the ipyleaflet.GeoJSON layer.</span>
+<span class="sd">        hover_style (dict, optional): Style to apply when hovering over features. Defaults to {&quot;color&quot;: &quot;yellow&quot;, &quot;fillOpacity&quot;: 0.2}.</span>
+<span class="sd">        **kwargs: Additional keyword arguments for the ipyleaflet.GeoJSON layer.</span>
+
 <span class="sd">    Raises:</span>
-<span class="sd">         ValueError: If the data type is invalid.</span>
-
+<span class="sd">        ValueError: If the data type is invalid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
     <span class="k">if</span> <span class="n">hover_style</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1384,14 +1450,10 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">geojson</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="n">gdf</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># No GeoDataFrame available for bounds calculation</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid data type for GeoJSON layer&quot;</span><span class="p">)</span>
-
     <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">GeoJSON</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="n">hover_style</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">zoom_to_layer</span> <span class="ow">and</span> <span class="n">gdf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">zoom_to_layer</span><span class="p">:</span>
         <span class="n">bounds</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">total_bounds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fit_bounds</span><span class="p">([[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]]])</span>
 </code></pre></div>
@@ -1436,7 +1498,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_google_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_type</span><span class="o">=</span><span class="s2">&quot;ROADMAP&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add Google Map to the map.</span>
 
@@ -1510,7 +1572,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds an image to the map.</span>
 
@@ -1547,7 +1609,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
       <p>Adds a layer control widget to the map.</p>
 
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a layer control widget to the map.&quot;&quot;&quot;</span>
     <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">LayersControl</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">)</span>
@@ -1601,7 +1663,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_shp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a shapefile to the map.</span>
 
@@ -1678,7 +1740,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds vector data to the map.</span>
 
@@ -1754,7 +1816,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_video</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a video to the map.</span>
 
@@ -1822,7 +1884,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </tbody>
 </table>
         <details class="quote">
-          <summary>Source code in <code>beamgis\beamgis.py</code></summary>
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_wms_layer</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
