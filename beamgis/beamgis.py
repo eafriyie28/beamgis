@@ -129,12 +129,14 @@ class Map(ipyleaflet.Map):
         control = ipyleaflet.LayersControl(position="topright")
         self.add_control(control)
 
-    def add_raster(self, filepath, **kwargs):
+    def add_raster(self, url, name="Raster", colormap=None, opacity=None, **kwargs):
 
         from localtileserver import TileClient, get_leaflet_tile_layer
 
-        client = TileClient(filepath)
-        tile_layer = get_leaflet_tile_layer(client, **kwargs)
+        client = TileClient(url)
+        tile_layer = get_leaflet_tile_layer(
+            client, name=name, colormap=colormap, opacity=opacity, **kwargs
+        )
 
         self.add(tile_layer)
         self.center = client.center()
@@ -154,7 +156,7 @@ class Map(ipyleaflet.Map):
         overlay = ipyleaflet.ImageOverlay(url=image, bounds=bounds, **kwargs)
         self.add(overlay)
 
-    def add_video(self, video, bounds=None, **kwargs):
+    def add_video(self, video, bounds=None, opacity=1.0, **kwargs):
         """Adds a video to the map.
 
         Args:
@@ -163,13 +165,15 @@ class Map(ipyleaflet.Map):
             **kwargs: Additional keyword arguments for the ipyleaflet.VideoOverlay layer.
         """
 
-        if bounds is None:
-            bounds = [[-90, -180], [90, 180]]
-        overlay = ipyleaflet.VideoOverlay(url=video, bounds=bounds, **kwargs)
+        if bounds is None or not bounds:
+            raise ValueError("Bounds must be specified for the video overlay.")
+        overlay = ipyleaflet.VideoOverlay(
+            url=video, bounds=bounds, opacity=opacity, **kwargs
+        )
         self.add(overlay)
 
     def add_wms_layer(
-        self, url, layers, format="image/png", transparent=True, **kwargs
+        self, url, layers, name, format="image/png", transparent=True, **kwargs
     ):
         """Adds a WMS layer to the map.
 
@@ -179,6 +183,11 @@ class Map(ipyleaflet.Map):
             **kwargs: Additional keyword arguments for the ipyleaflet.WMSLayer layer.
         """
         layer = ipyleaflet.WMSLayer(
-            url=url, layers=layers, format=format, transparent=transparent, **kwargs
+            url=url,
+            layers=layers,
+            name=name,
+            format=format,
+            transparent=transparent,
+            **kwargs,
         )
         self.add(layer)

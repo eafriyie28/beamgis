@@ -84,6 +84,7 @@ nav:
         - examples/Notebook_Example.ipynb
         - examples/map.ipynb
         - examples/split_map.ipynb
+        - examples/add_raster.ipynb
 
     - API Reference:
           - beamgis module: beamgis.md
