@@ -130,7 +130,15 @@ class Map(ipyleaflet.Map):
         self.add_control(control)
 
     def add_raster(self, url, name="Raster", colormap=None, opacity=None, **kwargs):
+        """Adds a raster layer to the map.
 
+        Args:
+            url (str): The file path or URL to the raster data.
+            name (str, optional): The name of the layer. Defaults to "Raster".
+            colormap (str, optional): The colormap to apply. Defaults to None.
+            opacity (float, optional): The opacity of the layer. Defaults to None.
+            **kwargs: Additional keyword arguments for the tile layer.
+        """
         from localtileserver import TileClient, get_leaflet_tile_layer
 
         client = TileClient(url)
