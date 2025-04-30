@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -787,6 +787,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#beamgis.beamgis.Map.add_search_control" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_search_control()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#beamgis.beamgis.Map.add_shp" class="md-nav__link">
     <span class="md-ellipsis">
       add_shp()
@@ -1024,6 +1033,15 @@
   <a href="#beamgis.beamgis.Map.add_raster" class="md-nav__link">
     <span class="md-ellipsis">
       add_raster()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beamgis.beamgis.Map.add_search_control" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_search_control()
     </span>
   </a>
   
@@ -1419,6 +1437,38 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_search_control</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">marker</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ipyleaflet</span><span class="o">.</span><span class="n">Marker</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">zoom</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">position</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;topleft&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a search control to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            url (str): The url to the search API. For example, &quot;https://nominatim.openstreetmap.org/search?format=json&amp;q={s}&quot;.</span>
+<span class="sd">            marker (ipyleaflet.Marker, optional): The marker to be used for the search result. Defaults to None.</span>
+<span class="sd">            zoom (int, optional): The zoom level to be used for the search result. Defaults to None.</span>
+<span class="sd">            position (str, optional): The position of the search control. Defaults to &quot;topleft&quot;.</span>
+<span class="sd">            kwargs (dict, optional): Additional keyword arguments to be passed to the search control. See https://ipyleaflet.readthedocs.io/en/latest/api_reference/search_control.html</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">marker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">Marker</span><span class="p">(</span>
+                <span class="n">icon</span><span class="o">=</span><span class="n">ipyleaflet</span><span class="o">.</span><span class="n">AwesomeIcon</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">marker_color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">icon_color</span><span class="o">=</span><span class="s2">&quot;darkred&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">search_control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">SearchControl</span><span class="p">(</span>
+            <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">zoom</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">search_control</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_control</span> <span class="o">=</span> <span class="n">search_control</span>
 </code></pre></div>
         </details>
 
@@ -2049,6 +2099,104 @@ Defaults to ["OpenStreetMap.Mapnik", "OpenTopoMap", "Esri.WorldImagery", "CartoD
     <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tile_layer</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">zoom</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">default_zoom</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="beamgis.beamgis.Map.add_search_control" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_search_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s1">&#39;topleft&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#beamgis.beamgis.Map.add_search_control" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Adds a search control to the map.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>url</code></td>
+        <td><code>str</code></td>
+        <td><p>The url to the search API. For example, "https://nominatim.openstreetmap.org/search?format=json&amp;q={s}".</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>marker</code></td>
+        <td><code>ipyleaflet.Marker</code></td>
+        <td><p>The marker to be used for the search result. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>zoom</code></td>
+        <td><code>int</code></td>
+        <td><p>The zoom level to be used for the search result. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>position</code></td>
+        <td><code>str</code></td>
+        <td><p>The position of the search control. Defaults to "topleft".</p></td>
+        <td><code>&#39;topleft&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>kwargs</code></td>
+        <td><code>dict</code></td>
+        <td><p>Additional keyword arguments to be passed to the search control. See https://ipyleaflet.readthedocs.io/en/latest/api_reference/search_control.html</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>beamgis/beamgis.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_search_control</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">marker</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ipyleaflet</span><span class="o">.</span><span class="n">Marker</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">zoom</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;topleft&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a search control to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        url (str): The url to the search API. For example, &quot;https://nominatim.openstreetmap.org/search?format=json&amp;q={s}&quot;.</span>
+<span class="sd">        marker (ipyleaflet.Marker, optional): The marker to be used for the search result. Defaults to None.</span>
+<span class="sd">        zoom (int, optional): The zoom level to be used for the search result. Defaults to None.</span>
+<span class="sd">        position (str, optional): The position of the search control. Defaults to &quot;topleft&quot;.</span>
+<span class="sd">        kwargs (dict, optional): Additional keyword arguments to be passed to the search control. See https://ipyleaflet.readthedocs.io/en/latest/api_reference/search_control.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">marker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">Marker</span><span class="p">(</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">ipyleaflet</span><span class="o">.</span><span class="n">AwesomeIcon</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">marker_color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">icon_color</span><span class="o">=</span><span class="s2">&quot;darkred&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">search_control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">SearchControl</span><span class="p">(</span>
+        <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+        <span class="n">zoom</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span>
+        <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">search_control</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">search_control</span> <span class="o">=</span> <span class="n">search_control</span>
 </code></pre></div>
         </details>
     </div>
