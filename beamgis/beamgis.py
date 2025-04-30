@@ -1,8 +1,11 @@
 """Main module."""
 
 import os
+from typing import Any, Dict, List, Optional, Tuple, Type, Union, Callable, Sequence
+
 import ipyleaflet
 import ipywidgets as widgets
+import pandas as pd
 
 
 class Map(ipyleaflet.Map):
@@ -294,3 +297,35 @@ class Map(ipyleaflet.Map):
             **kwargs,
         )
         self.add(layer)
+
+    def add_search_control(
+        self,
+        url: str,
+        marker: Optional[ipyleaflet.Marker] = None,
+        zoom: Optional[int] = None,
+        position: Optional[str] = "topleft",
+        **kwargs,
+    ) -> None:
+        """Adds a search control to the map.
+
+        Args:
+            url (str): The url to the search API. For example, "https://nominatim.openstreetmap.org/search?format=json&q={s}".
+            marker (ipyleaflet.Marker, optional): The marker to be used for the search result. Defaults to None.
+            zoom (int, optional): The zoom level to be used for the search result. Defaults to None.
+            position (str, optional): The position of the search control. Defaults to "topleft".
+            kwargs (dict, optional): Additional keyword arguments to be passed to the search control. See https://ipyleaflet.readthedocs.io/en/latest/api_reference/search_control.html
+        """
+        if marker is None:
+            marker = ipyleaflet.Marker(
+                icon=ipyleaflet.AwesomeIcon(
+                    name="check", marker_color="green", icon_color="darkred"
+                )
+            )
+        search_control = ipyleaflet.SearchControl(
+            position=position,
+            url=url,
+            zoom=zoom,
+            marker=marker,
+        )
+        self.add(search_control)
+        self.search_control = search_control
