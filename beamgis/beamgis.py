@@ -152,7 +152,8 @@ class Map(ipyleaflet.Map):
         Args:
             data (str or dict): The GeoJSON data. Can be a file path (str) or a dictionary.
             zoom_to_layer (bool, optional): Whether to zoom to the layer's bounds. Defaults to True.
-            hover_style (dict, optional): Style to apply when hovering over features. Defaults to {"color": "yellow", "fillOpacity": 0.2}.
+            hover_style (dict, optional): Style to apply when hovering over features.
+            Defaults to {"color": "yellow", "fillOpacity": 0.2}.
             **kwargs: Additional keyword arguments for the ipyleaflet.GeoJSON layer.
 
         Raises:
