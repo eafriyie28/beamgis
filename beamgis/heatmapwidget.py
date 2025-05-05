@@ -4,7 +4,25 @@ from ipyleaflet import Map, Heatmap
 
 
 class HeatmapWidget(widgets.VBox):
+    """
+    A widget for creating and adding a heatmap layer to an ipyleaflet map.
+
+    Attributes:
+        map_obj (ipyleaflet.Map): The ipyleaflet map object to which the heatmap will be added.
+        df (pandas.DataFrame): The dataframe loaded from the provided CSV URL.
+
+    Methods:
+        _load_csv(b): Loads a CSV file from the provided URL and populates dropdowns with column names.
+        _add_heatmap(b): Adds a heatmap layer to the map using the selected columns and parameters.
+    """
+
     def __init__(self, map_obj):
+        """
+        Initializes the HeatmapWidget with the given map object and sets up the UI components.
+
+        Args:
+            map_obj (ipyleaflet.Map): The ipyleaflet map object to which the heatmap will be added.
+        """
         super().__init__()
         self.map_obj = map_obj
         self.df = None
@@ -44,6 +62,12 @@ class HeatmapWidget(widgets.VBox):
         ]
 
     def _load_csv(self, b):
+        """
+        Loads a CSV file from the provided URL and populates the dropdowns with column names.
+
+        Args:
+            b: The button click event.
+        """
         try:
             self.df = pd.read_csv(self.csv_url.value)
             cols = self.df.columns.tolist()
@@ -54,6 +78,12 @@ class HeatmapWidget(widgets.VBox):
             print(f"Error loading CSV: {e}")
 
     def _add_heatmap(self, b):
+        """
+        Adds a heatmap layer to the map using the selected columns and parameters.
+
+        Args:
+            b: The button click event.
+        """
         try:
             lat = self.lat_dropdown.value
             lon = self.lon_dropdown.value
