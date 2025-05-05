@@ -2,70 +2,106 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://eafriyie28.github.io/beamgis/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/basemaps/</loc>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/beamgis/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/changelog/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/common/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/contributing/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/faq/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/foliumap/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/heatmapwidget/</loc>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/installation/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/map_widgets/</loc>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/pc/</loc>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/split_map/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/stac/</loc>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/toolbar/</loc>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/usage/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/examples/Lab9_leafmap/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/examples/Notebook_Example/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/examples/add_raster/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/examples/folium/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
-         <loc>https://eafriyie28.github.io/beamgis/examples/map/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <loc>https://eafriyie28.github.io/beamgis/examples/heatmap/</loc>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/examples/heatmapwidget/</loc>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/examples/map_widget/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
     </url>
     <url>
          <loc>https://eafriyie28.github.io/beamgis/examples/split_map/</loc>
-         <lastmod>2025-05-02</lastmod>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/examples/time_series_inspector/</loc>
+         <lastmod>2025-05-05</lastmod>
+    </url>
+    <url>
+         <loc>https://eafriyie28.github.io/beamgis/examples/time_slider/</loc>
+         <lastmod>2025-05-05</lastmod>
     </url>
 </urlset>
