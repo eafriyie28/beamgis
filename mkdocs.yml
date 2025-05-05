@@ -82,12 +82,10 @@ nav:
     - Examples:
         - examples/folium.ipynb
         - examples/Notebook_Example.ipynb
-        - examples/map.ipynb
         - examples/split_map.ipynb
         - examples/add_raster.ipynb
         - examples/map_widget.ipynb
-        - examples/toolbar.ipynb
-        - examples/heatmapwidgets.ipynb
+        - examples/heatmapwidget.ipynb
         - examples/time_slider.ipynb
         - examples/heatmap.ipynb
 
@@ -101,4 +99,4 @@ nav:
           - basemaps module: basemaps.md
           - pc module: pc.md
           - stac module: stac.md
-          - heatmapwidgets module: heatmapwidgets.md
+          - heatmapwidget module: heatmapwidget.md
