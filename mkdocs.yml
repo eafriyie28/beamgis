@@ -86,9 +86,19 @@ nav:
         - examples/split_map.ipynb
         - examples/add_raster.ipynb
         - examples/map_widget.ipynb
+        - examples/toolbar.ipynb
+        - examples/heatmapwidgets.ipynb
+        - examples/time_slider.ipynb
+        - examples/heatmap.ipynb
 
     - API Reference:
           - beamgis module: beamgis.md
           - folium module: foliumap.md
           - common module: common.md
           - split_map module: split_map.md
+          - toolbar module: toolbar.md
+          - map_widget module: map_widget.md
+          - basemaps module: basemaps.md
+          - pc module: pc.md
+          - stac module: stac.md
+          - heatmapwidgets module: heatmapwidgets.md

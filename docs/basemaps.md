@@ -1,0 +1,3 @@
+# basemaps module
+
+::: beamgis.basemaps
