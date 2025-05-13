@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.2afb09e1.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1553,7 +1553,7 @@ m</div>
             &lt;meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /&gt;
             &lt;style&gt;
-                #map_9d90b42d43c16b530b0854b8065f3c8f {
+                #map_79e9f35eebb18673b362098aece6e318 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -1568,14 +1568,14 @@ m</div>
 &lt;body&gt;
     
     
-            &lt;div class="folium-map" id="map_9d90b42d43c16b530b0854b8065f3c8f" &gt;&lt;/div&gt;
+            &lt;div class="folium-map" id="map_79e9f35eebb18673b362098aece6e318" &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_9d90b42d43c16b530b0854b8065f3c8f = L.map(
-                "map_9d90b42d43c16b530b0854b8065f3c8f",
+            var map_79e9f35eebb18673b362098aece6e318 = L.map(
+                "map_79e9f35eebb18673b362098aece6e318",
                 {
                     center: [35.9606, -83.9208],
                     crs: L.CRS.EPSG3857,
@@ -1592,7 +1592,7 @@ m</div>
 
         
     
-            var tile_layer_9511020e2144031bb7359247d3cbe658 = L.tileLayer(
+            var tile_layer_bdbeee78052acd0a3e0e474a563acf90 = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
@@ -1609,10 +1609,10 @@ m</div>
             );
         
     
-            tile_layer_9511020e2144031bb7359247d3cbe658.addTo(map_9d90b42d43c16b530b0854b8065f3c8f);
+            tile_layer_bdbeee78052acd0a3e0e474a563acf90.addTo(map_79e9f35eebb18673b362098aece6e318);
         
     
-            var tile_layer_9559484276ef7480bb6c3863ef80590b = L.tileLayer(
+            var tile_layer_f0825ccf6286085087dcd4cf6385bf42 = L.tileLayer(
                 "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
                 {
   "minZoom": 0,
@@ -1629,10 +1629,10 @@ m</div>
             );
         
     
-            tile_layer_9559484276ef7480bb6c3863ef80590b.addTo(map_9d90b42d43c16b530b0854b8065f3c8f);
+            tile_layer_f0825ccf6286085087dcd4cf6385bf42.addTo(map_79e9f35eebb18673b362098aece6e318);
         
     
-            var tile_layer_7a1963699fe8a1c0d42511cc53a20cb4 = L.tileLayer(
+            var tile_layer_c8d27ef7a78a61ed67453afeaea57bf3 = L.tileLayer(
                 "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
                 {
   "minZoom": 0,
@@ -1649,32 +1649,32 @@ m</div>
             );
         
     
-            tile_layer_7a1963699fe8a1c0d42511cc53a20cb4.addTo(map_9d90b42d43c16b530b0854b8065f3c8f);
+            tile_layer_c8d27ef7a78a61ed67453afeaea57bf3.addTo(map_79e9f35eebb18673b362098aece6e318);
         
     
-            var side_by_side_layers_9a19e5758b25769b1f042b55b78b702e = L.control.sideBySide(
-                tile_layer_9559484276ef7480bb6c3863ef80590b, tile_layer_7a1963699fe8a1c0d42511cc53a20cb4
-            ).addTo(map_9d90b42d43c16b530b0854b8065f3c8f);
+            var side_by_side_layers_5a03b6ae51d0e0f38dfbe7fa58f88d3a = L.control.sideBySide(
+                tile_layer_f0825ccf6286085087dcd4cf6385bf42, tile_layer_c8d27ef7a78a61ed67453afeaea57bf3
+            ).addTo(map_79e9f35eebb18673b362098aece6e318);
         
     
-            var layer_control_ef8dc86c79511aef04ba32c9737f39fe_layers = {
+            var layer_control_5676afcceeb6628c14a8bd9da77101a2_layers = {
                 base_layers : {
-                    "openstreetmap" : tile_layer_9511020e2144031bb7359247d3cbe658,
-                    "Left Layer" : tile_layer_9559484276ef7480bb6c3863ef80590b,
-                    "Right Layer" : tile_layer_7a1963699fe8a1c0d42511cc53a20cb4,
+                    "openstreetmap" : tile_layer_bdbeee78052acd0a3e0e474a563acf90,
+                    "Left Layer" : tile_layer_f0825ccf6286085087dcd4cf6385bf42,
+                    "Right Layer" : tile_layer_c8d27ef7a78a61ed67453afeaea57bf3,
                 },
                 overlays :  {
                 },
             };
-            let layer_control_ef8dc86c79511aef04ba32c9737f39fe = L.control.layers(
-                layer_control_ef8dc86c79511aef04ba32c9737f39fe_layers.base_layers,
-                layer_control_ef8dc86c79511aef04ba32c9737f39fe_layers.overlays,
+            let layer_control_5676afcceeb6628c14a8bd9da77101a2 = L.control.layers(
+                layer_control_5676afcceeb6628c14a8bd9da77101a2_layers.base_layers,
+                layer_control_5676afcceeb6628c14a8bd9da77101a2_layers.overlays,
                 {
   "position": "topright",
   "collapsed": true,
   "autoZIndex": true,
 }
-            ).addTo(map_9d90b42d43c16b530b0854b8065f3c8f);
+            ).addTo(map_79e9f35eebb18673b362098aece6e318);
 
         
 &lt;/script&gt;
@@ -1768,7 +1768,7 @@ raster_m</div>
             &lt;meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /&gt;
             &lt;style&gt;
-                #map_7deaea93dfe50db292426104b5dfed03 {
+                #map_818043d718af66fa7c107308e66d134b {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -1783,14 +1783,14 @@ raster_m</div>
 &lt;body&gt;
     
     
-            &lt;div class="folium-map" id="map_7deaea93dfe50db292426104b5dfed03" &gt;&lt;/div&gt;
+            &lt;div class="folium-map" id="map_818043d718af66fa7c107308e66d134b" &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_7deaea93dfe50db292426104b5dfed03 = L.map(
-                "map_7deaea93dfe50db292426104b5dfed03",
+            var map_818043d718af66fa7c107308e66d134b = L.map(
+                "map_818043d718af66fa7c107308e66d134b",
                 {
                     center: [-8.3793, -74.5357],
                     crs: L.CRS.EPSG3857,
@@ -1807,7 +1807,7 @@ raster_m</div>
 
         
     
-            var tile_layer_8519e67a3e1a838437a9e709fb24c891 = L.tileLayer(
+            var tile_layer_0ffca94795b9e1f743550127ae6bee75 = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
@@ -1824,11 +1824,11 @@ raster_m</div>
             );
         
     
-            tile_layer_8519e67a3e1a838437a9e709fb24c891.addTo(map_7deaea93dfe50db292426104b5dfed03);
+            tile_layer_0ffca94795b9e1f743550127ae6bee75.addTo(map_818043d718af66fa7c107308e66d134b);
         
     
-            var tile_layer_4fd5c1e420d65b02df7a60092446fae1 = L.tileLayer(
-                "http://127.0.0.1:40817/api/tiles/{z}/{x}/{y}.png?\u0026filename=%2Fvsicurl%3Furl%3Dhttps%253A%252F%252Fgithub.com%252Fopengeos%252Fdatasets%252Freleases%252Fdownload%252Fraster%252Fdem_90m.tif%26use_head%3Dno%26list_dir%3Dno\u0026colormap=terrain",
+            var tile_layer_d3aed0b5e6d6659d76b96db1b7b1ce34 = L.tileLayer(
+                "http://127.0.0.1:46677/api/tiles/{z}/{x}/{y}.png?\u0026filename=%2Fvsicurl%3Furl%3Dhttps%253A%252F%252Fgithub.com%252Fopengeos%252Fdatasets%252Freleases%252Fdownload%252Fraster%252Fdem_90m.tif%26use_head%3Dno%26list_dir%3Dno\u0026colormap=terrain",
                 {
   "minZoom": 0,
   "maxZoom": 18,
@@ -1845,11 +1845,11 @@ raster_m</div>
             );
         
     
-            tile_layer_4fd5c1e420d65b02df7a60092446fae1.addTo(map_7deaea93dfe50db292426104b5dfed03);
+            tile_layer_d3aed0b5e6d6659d76b96db1b7b1ce34.addTo(map_818043d718af66fa7c107308e66d134b);
         
     
-            var tile_layer_0838c0b83bd366bb0776bc3c060c91f5 = L.tileLayer(
-                "http://127.0.0.1:40817/api/tiles/{z}/{x}/{y}.png?\u0026filename=%2Fvsicurl%3Furl%3Dhttps%253A%252F%252Fgithub.com%252Fopengeos%252Fdatasets%252Freleases%252Fdownload%252Fraster%252FLC09_039035_20240708_90m.tif%26use_head%3Dno%26list_dir%3Dno\u0026colormap=viridis",
+            var tile_layer_6debc41628cb84e823807e5909688546 = L.tileLayer(
+                "http://127.0.0.1:46677/api/tiles/{z}/{x}/{y}.png?\u0026filename=%2Fvsicurl%3Furl%3Dhttps%253A%252F%252Fgithub.com%252Fopengeos%252Fdatasets%252Freleases%252Fdownload%252Fraster%252FLC09_039035_20240708_90m.tif%26use_head%3Dno%26list_dir%3Dno\u0026colormap=viridis",
                 {
   "minZoom": 0,
   "maxZoom": 18,
@@ -1866,12 +1866,12 @@ raster_m</div>
             );
         
     
-            tile_layer_0838c0b83bd366bb0776bc3c060c91f5.addTo(map_7deaea93dfe50db292426104b5dfed03);
+            tile_layer_6debc41628cb84e823807e5909688546.addTo(map_818043d718af66fa7c107308e66d134b);
         
     
-            var side_by_side_layers_62f3fa8630f641d14c370fa8d6a33a5f = L.control.sideBySide(
-                tile_layer_4fd5c1e420d65b02df7a60092446fae1, tile_layer_0838c0b83bd366bb0776bc3c060c91f5
-            ).addTo(map_7deaea93dfe50db292426104b5dfed03);
+            var side_by_side_layers_4c6686f1bbbdd0d85a5ad604cd97de8e = L.control.sideBySide(
+                tile_layer_d3aed0b5e6d6659d76b96db1b7b1ce34, tile_layer_6debc41628cb84e823807e5909688546
+            ).addTo(map_818043d718af66fa7c107308e66d134b);
         
 &lt;/script&gt;
 &lt;/html&gt;' style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" webkitallowfullscreen=""></iframe></div></div>
@@ -1979,10 +1979,10 @@ raster_m</div>
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
       
         <script src="../../js/timeago.min.js"></script>
       

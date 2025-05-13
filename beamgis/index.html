@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -1543,11 +1543,6 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 <span class="sd">            - A toggle button is used to show or hide the dropdown and close button.</span>
 <span class="sd">            - The dropdown allows users to select a basemap from the provided options.</span>
 <span class="sd">            - The close button removes the widget from the map.</span>
-
-<span class="sd">        Event Handlers:</span>
-<span class="sd">            - `on_toggle_change`: Toggles the visibility of the dropdown and close button.</span>
-<span class="sd">            - `on_button_click`: Closes and removes the widget from the map.</span>
-<span class="sd">            - `on_dropdown_change`: Updates the map&#39;s basemap when a new option is selected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">options</span> <span class="o">=</span> <span class="p">[</span>
@@ -1557,196 +1552,485 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
                 <span class="s2">&quot;CartoDB.DarkMatter&quot;</span><span class="p">,</span>
             <span class="p">]</span>
 
+        <span class="c1"># --- Widgets setup ---</span>
         <span class="n">toggle</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButton</span><span class="p">(</span>
             <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Click me&quot;</span><span class="p">,</span>
             <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">toggle</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">)</span>
 
+        <span class="n">toggle</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">)</span>
         <span class="n">dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
             <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
             <span class="n">value</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Basemap:&quot;</span><span class="p">,</span>
             <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
         <span class="p">)</span>
+
         <span class="n">dropdown</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">)</span>
+        <span class="n">close_btn</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">icon</span><span class="o">=</span><span class="s2">&quot;times&quot;</span><span class="p">)</span>
+        <span class="n">close_btn</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">)</span>
 
-        <span class="n">button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-            <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;times&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">button</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">)</span>
+        <span class="n">hbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">toggle</span><span class="p">,</span> <span class="n">dropdown</span><span class="p">,</span> <span class="n">close_btn</span><span class="p">])</span>
 
-        <span class="n">hbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">toggle</span><span class="p">,</span> <span class="n">dropdown</span><span class="p">,</span> <span class="n">button</span><span class="p">])</span>
-
+        <span class="c1"># --- Toggle visibility ---</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">on_toggle_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Toggles the visibility of the dropdown and close button.</span>
-
-<span class="sd">            Args:</span>
-<span class="sd">                change (dict): The change event containing the new value of the toggle button.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]:</span>
-                <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">toggle</span><span class="p">,</span> <span class="n">dropdown</span><span class="p">,</span> <span class="n">button</span><span class="p">]</span>
+                <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">toggle</span><span class="p">,</span> <span class="n">dropdown</span><span class="p">,</span> <span class="n">close_btn</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">toggle</span><span class="p">]</span>
 
         <span class="n">toggle</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_toggle_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">on_button_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Closes and removes the widget from the map.</span>
-
-<span class="sd">            Args:</span>
-<span class="sd">                b (ipywidgets.Button): The button click event.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="c1"># --- Close the control ---</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">on_close_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
             <span class="n">hbox</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">toggle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="n">dropdown</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="n">button</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">close_btn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-        <span class="n">button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_button_click</span><span class="p">)</span>
+        <span class="n">close_btn</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_close_click</span><span class="p">)</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">on_dropdown_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Updates the map&#39;s basemap when a new option is selected.</span>
+<span class="sd">            Adds a new basemap layer to the map when a new option is selected.</span>
 
 <span class="sd">            Args:</span>
 <span class="sd">                change (dict): The change event containing the new value of the dropdown.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">])</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+                <span class="n">new_tile_layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_layer</span><span class="p">(</span><span class="n">new_tile_layer</span><span class="p">)</span>
 
         <span class="n">dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_dropdown_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
 
         <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WidgetControl</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">hbox</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_heatmap_gui</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">25</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="s2">&quot;bottomright&quot;</span><span class="p">,</span>
+        <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">radius</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds an inline GUI to the map for generating a heatmap from a CSV URL.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            position (str): Position of the widget on the map. Defaults to &quot;topright&quot;.</span>
-<span class="sd">            latitude (str, optional): The default latitude column name.</span>
-<span class="sd">            longitude (str, optional): The default longitude column name.</span>
-<span class="sd">            value (str, optional): The default value (intensity) column name.</span>
-<span class="sd">            radius (int, optional): Default radius of each point on the heatmap. Defaults to 25.</span>
+<span class="sd">        Positioned in the bottom right with a clean, modern design.</span>
+<span class="sd">        Output is cleared before each operation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">ipyleaflet</span><span class="w"> </span><span class="kn">import</span> <span class="n">Heatmap</span>
 
         <span class="c1"># --- Core UI Components ---</span>
-        <span class="n">toggle</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButton</span><span class="p">(</span>
+        <span class="n">toggle</span> <span class="o">=</span> <span class="n">ToggleButton</span><span class="p">(</span>
             <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Show/hide heatmap panel&quot;</span><span class="p">,</span>
             <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;fire&quot;</span><span class="p">,</span>
-            <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">),</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">),</span>
+            <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">url_text</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span>
-            <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Paste CSV URL&quot;</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;CSV URL:&quot;</span><span class="p">,</span>
-            <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;350px&quot;</span><span class="p">),</span>
+        <span class="n">url_text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+            <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Paste CSV URL here...&quot;</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;300px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
             <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
         <span class="p">)</span>
 
-        <span class="n">lat_dd</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lat&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">)</span>
+        <span class="n">lat_dd</span> <span class="o">=</span> <span class="n">Dropdown</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Latitude:&quot;</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;60px&quot;</span><span class="p">},</span>
         <span class="p">)</span>
-        <span class="n">lon_dd</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lon&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">)</span>
+        <span class="n">lon_dd</span> <span class="o">=</span> <span class="n">Dropdown</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Longitude:&quot;</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;70px&quot;</span><span class="p">},</span>
         <span class="p">)</span>
-        <span class="n">val_dd</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">)</span>
+        <span class="n">val_dd</span> <span class="o">=</span> <span class="n">Dropdown</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Value:&quot;</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;50px&quot;</span><span class="p">},</span>
         <span class="p">)</span>
 
-        <span class="n">radius_slider</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">(</span>
+        <span class="n">radius_slider</span> <span class="o">=</span> <span class="n">IntSlider</span><span class="p">(</span>
             <span class="n">value</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
             <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="nb">max</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
             <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Radius:&quot;</span><span class="p">,</span>
             <span class="n">continuous_update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;180px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;50px&quot;</span><span class="p">},</span>
         <span class="p">)</span>
 
-        <span class="n">load_button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Load CSV&quot;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;download&quot;</span><span class="p">,</span> <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;info&quot;</span>
+        <span class="n">load_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Load CSV&quot;</span><span class="p">,</span>
+            <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;download&quot;</span><span class="p">,</span>
+            <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;100px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">heatmap_button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Add Heatmap&quot;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;plus&quot;</span><span class="p">,</span> <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;success&quot;</span>
+        <span class="n">heatmap_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Add Heatmap&quot;</span><span class="p">,</span>
+            <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;plus&quot;</span><span class="p">,</span>
+            <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;120px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">close_button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">icon</span><span class="o">=</span><span class="s2">&quot;times&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">))</span>
+        <span class="n">close_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+            <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;times&quot;</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+            <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
 
-        <span class="c1"># --- Layout Containers ---</span>
-        <span class="n">controls_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">(</span>
+        <span class="c1"># --- Output widget for messages ---</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span>
+                <span class="n">border</span><span class="o">=</span><span class="s2">&quot;1px solid #e0e0e0&quot;</span><span class="p">,</span>
+                <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;10px&quot;</span><span class="p">,</span>
+                <span class="n">max_height</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">,</span>
+                <span class="n">overflow</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;5px 0&quot;</span><span class="p">,</span>
+                <span class="n">background_color</span><span class="o">=</span><span class="s2">&quot;#f9f9f9&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Header with title and close button</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">HBox</span><span class="p">(</span>
             <span class="p">[</span>
-                <span class="n">url_text</span><span class="p">,</span>
-                <span class="n">load_button</span><span class="p">,</span>
-                <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">lat_dd</span><span class="p">,</span> <span class="n">lon_dd</span><span class="p">,</span> <span class="n">val_dd</span><span class="p">]),</span>
-                <span class="n">radius_slider</span><span class="p">,</span>
-                <span class="n">heatmap_button</span><span class="p">,</span>
-            <span class="p">]</span>
+                <span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;h4 style=&#39;margin: 0; padding: 0;&#39;&gt;Heatmap Generator&lt;/h4&gt;&quot;</span><span class="p">),</span>
+                <span class="n">close_button</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span>
+                <span class="n">justify_content</span><span class="o">=</span><span class="s2">&quot;space-between&quot;</span><span class="p">,</span>
+                <span class="n">width</span><span class="o">=</span><span class="s2">&quot;100%&quot;</span><span class="p">,</span>
+                <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;5px 10px&quot;</span><span class="p">,</span>
+                <span class="n">background_color</span><span class="o">=</span><span class="s2">&quot;#4CAF50&quot;</span><span class="p">,</span>
+                <span class="n">border_radius</span><span class="o">=</span><span class="s2">&quot;5px 5px 0 0&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
         <span class="p">)</span>
 
-        <span class="n">hbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">toggle</span><span class="p">,</span> <span class="n">controls_box</span><span class="p">,</span> <span class="n">close_button</span><span class="p">])</span>
+        <span class="c1"># --- Layout ---</span>
+        <span class="n">controls</span> <span class="o">=</span> <span class="n">VBox</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">HBox</span><span class="p">([</span><span class="n">url_text</span><span class="p">,</span> <span class="n">load_button</span><span class="p">]),</span>
+                <span class="n">HBox</span><span class="p">([</span><span class="n">lat_dd</span><span class="p">,</span> <span class="n">lon_dd</span><span class="p">,</span> <span class="n">val_dd</span><span class="p">]),</span>
+                <span class="n">HBox</span><span class="p">([</span><span class="n">radius_slider</span><span class="p">,</span> <span class="n">heatmap_button</span><span class="p">]),</span>
+            <span class="p">],</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="s2">&quot;10px&quot;</span><span class="p">,</span> <span class="n">align_items</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;100%&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Main panel with header, controls and output</span>
+        <span class="n">panel</span> <span class="o">=</span> <span class="n">VBox</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">header</span><span class="p">,</span> <span class="n">controls</span><span class="p">,</span> <span class="n">output</span><span class="p">],</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span>
+                <span class="n">background_color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+                <span class="n">border</span><span class="o">=</span><span class="s2">&quot;1px solid #e0e0e0&quot;</span><span class="p">,</span>
+                <span class="n">border_radius</span><span class="o">=</span><span class="s2">&quot;5px&quot;</span><span class="p">,</span>
+                <span class="n">box_shadow</span><span class="o">=</span><span class="s2">&quot;0 2px 5px rgba(0,0,0,0.1)&quot;</span><span class="p">,</span>
+                <span class="n">width</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                <span class="n">max_width</span><span class="o">=</span><span class="s2">&quot;800px&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Collapsible container</span>
+        <span class="n">collapsible</span> <span class="o">=</span> <span class="n">VBox</span><span class="p">([</span><span class="n">toggle</span><span class="p">,</span> <span class="n">panel</span><span class="p">])</span>
 
         <span class="c1"># --- Behavior Handlers ---</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">on_toggle_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-            <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="p">[</span><span class="n">toggle</span><span class="p">,</span> <span class="n">controls_box</span><span class="p">,</span> <span class="n">close_button</span><span class="p">]</span> <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="n">toggle</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="n">collapsible</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">toggle</span><span class="p">,</span> <span class="n">panel</span><span class="p">]</span> <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="n">toggle</span><span class="p">]</span>
 
         <span class="n">toggle</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_toggle_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">on_close_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-            <span class="n">hbox</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">on_close_click</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+            <span class="n">collapsible</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
         <span class="n">close_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_close_click</span><span class="p">)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">on_load_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url_text</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-                <span class="n">options</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-                <span class="n">lat_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
-                <span class="n">lon_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
-                <span class="n">val_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
-
-                <span class="c1"># Preselect columns if provided</span>
-                <span class="k">if</span> <span class="n">latitude</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
-                    <span class="n">lat_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">latitude</span>
-                <span class="k">if</span> <span class="n">longitude</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
-                    <span class="n">lon_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">longitude</span>
-                <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
-                    <span class="n">val_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-
-                <span class="n">hbox</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>  <span class="c1"># attach df to widget</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error loading CSV: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">on_load_click</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">output</span><span class="p">:</span>
+                <span class="n">clear_output</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url_text</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="n">opts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                    <span class="n">lat_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">opts</span>
+                    <span class="n">lon_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">opts</span>
+                    <span class="n">val_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">opts</span>
+                    <span class="c1"># Preselect if defaults provided</span>
+                    <span class="k">if</span> <span class="n">latitude</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                        <span class="n">lat_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">latitude</span>
+                    <span class="k">if</span> <span class="n">longitude</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                        <span class="n">lon_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">longitude</span>
+                    <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                        <span class="n">val_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="n">panel</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Loaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Columns: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ Error loading CSV:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 
         <span class="n">load_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_load_click</span><span class="p">)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">on_add_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="n">hbox</span><span class="o">.</span><span class="n">df</span>
-                <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">lat_dd</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">lon_dd</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">val_dd</span><span class="o">.</span><span class="n">value</span>
-                <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">val</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-                <span class="n">heatmap</span> <span class="o">=</span> <span class="n">Heatmap</span><span class="p">(</span>
-                    <span class="n">locations</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius_slider</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Heat map&quot;</span>
-                <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">heatmap</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error adding heatmap: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">on_add_click</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">output</span><span class="p">:</span>
+                <span class="n">clear_output</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">df</span>
+                    <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">lat_dd</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">lon_dd</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">val_dd</span><span class="o">.</span><span class="n">value</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">val</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                    <span class="n">hm</span> <span class="o">=</span> <span class="n">Heatmap</span><span class="p">(</span>
+                        <span class="n">locations</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius_slider</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Heat map&quot;</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">hm</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🌋 Heatmap successfully added!&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📍 Points: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔘 Radius: </span><span class="si">{</span><span class="n">radius_slider</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ Error adding heatmap:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 
         <span class="n">heatmap_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_add_click</span><span class="p">)</span>
 
-        <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WidgetControl</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">hbox</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
+        <span class="n">heatmap_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_add_click</span><span class="p">)</span>
+
+        <span class="c1"># Finally, add to the map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">WidgetControl</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">collapsible</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">))</span>
+
+    <span class="c1"># def add_heatmap_gui(</span>
+    <span class="c1">#     self, position=&quot;topright&quot;, latitude=None, longitude=None, value=None, radius=25</span>
+    <span class="c1"># ):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Adds an inline GUI to the map for generating a heatmap from a CSV URL.</span>
+    <span class="c1">#     Now laid out horizontally on a light-green background,</span>
+    <span class="c1">#     with a dedicated Output pane that is cleared on each run.</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     import pandas as pd</span>
+
+    <span class="c1">#     # --- Core UI Components ---</span>
+    <span class="c1">#     toggle = ToggleButton(</span>
+    <span class="c1">#         value=True, tooltip=&quot;Show/hide heatmap panel&quot;, icon=&quot;fire&quot;,</span>
+    <span class="c1">#         layout=Layout(width=&quot;45px&quot;, height=&quot;45px&quot;)</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     url_text = Text(</span>
+    <span class="c1">#         placeholder=&quot;Paste CSV URL&quot;, description=&quot;CSV URL:&quot;,</span>
+    <span class="c1">#         layout=Layout(width=&quot;300px&quot;), style={&quot;description_width&quot;: &quot;initial&quot;}</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     lat_dd = Dropdown(description=&quot;Lat&quot;, layout=Layout(width=&quot;120px&quot;))</span>
+    <span class="c1">#     lon_dd = Dropdown(description=&quot;Lon&quot;, layout=Layout(width=&quot;120px&quot;))</span>
+    <span class="c1">#     val_dd = Dropdown(description=&quot;Value&quot;, layout=Layout(width=&quot;120px&quot;))</span>
+
+    <span class="c1">#     radius_slider = IntSlider(</span>
+    <span class="c1">#         value=radius, min=1, max=50, step=1, description=&quot;Radius:&quot;,</span>
+    <span class="c1">#         continuous_update=False, layout=Layout(width=&quot;200px&quot;)</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     load_button = Button(description=&quot;Load CSV&quot;, icon=&quot;download&quot;, button_style=&quot;info&quot;)</span>
+    <span class="c1">#     heatmap_button = Button(description=&quot;Add Heatmap&quot;, icon=&quot;plus&quot;, button_style=&quot;success&quot;)</span>
+    <span class="c1">#     close_button = Button(icon=&quot;times&quot;, layout=Layout(width=&quot;40px&quot;))</span>
+
+    <span class="c1">#     # --- Output widget for messages ---</span>
+    <span class="c1">#     output = Output(layout=Layout(border=&quot;1px solid #ccc&quot;, padding=&quot;5px&quot;, max_height=&quot;150px&quot;, overflow=&quot;auto&quot;))</span>
+
+    <span class="c1">#     # --- Layout in a single horizontal box ---</span>
+    <span class="c1">#     controls = HBox(</span>
+    <span class="c1">#         [</span>
+    <span class="c1">#             url_text, load_button,</span>
+    <span class="c1">#             lat_dd, lon_dd, val_dd,</span>
+    <span class="c1">#             radius_slider, heatmap_button,</span>
+    <span class="c1">#             close_button</span>
+    <span class="c1">#         ],</span>
+    <span class="c1">#         layout=Layout(</span>
+    <span class="c1">#             background_color=&quot;lightgreen&quot;,</span>
+    <span class="c1">#             padding=&quot;10px&quot;,</span>
+    <span class="c1">#             align_items=&quot;center&quot;,</span>
+    <span class="c1">#             flex_flow=&quot;row wrap&quot;,</span>
+    <span class="c1">#             width=&quot;100%&quot;</span>
+    <span class="c1">#         )</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     # Stack the toggle, controls row, and output pane</span>
+    <span class="c1">#     panel = VBox([toggle, controls, output])</span>
+
+    <span class="c1">#     # --- Behavior Handlers ---</span>
+    <span class="c1">#     def on_toggle_change(change):</span>
+    <span class="c1">#         if change[&quot;new&quot;]:</span>
+    <span class="c1">#             panel.children = [toggle, controls, output]</span>
+    <span class="c1">#         else:</span>
+    <span class="c1">#             panel.children = [toggle]</span>
+
+    <span class="c1">#     toggle.observe(on_toggle_change, names=&quot;value&quot;)</span>
+
+    <span class="c1">#     def on_close_click(_):</span>
+    <span class="c1">#         panel.close()</span>
+
+    <span class="c1">#     close_button.on_click(on_close_click)</span>
+
+    <span class="c1">#     def on_load_click(_):</span>
+    <span class="c1">#         with output:</span>
+    <span class="c1">#             clear_output()</span>
+    <span class="c1">#             try:</span>
+    <span class="c1">#                 df = pd.read_csv(url_text.value)</span>
+    <span class="c1">#                 opts = df.columns.tolist()</span>
+    <span class="c1">#                 lat_dd.options = opts</span>
+    <span class="c1">#                 lon_dd.options = opts</span>
+    <span class="c1">#                 val_dd.options = opts</span>
+    <span class="c1">#                 # Preselect if defaults provided</span>
+    <span class="c1">#                 if latitude in opts:</span>
+    <span class="c1">#                     lat_dd.value = latitude</span>
+    <span class="c1">#                 if longitude in opts:</span>
+    <span class="c1">#                     lon_dd.value = longitude</span>
+    <span class="c1">#                 if value in opts:</span>
+    <span class="c1">#                     val_dd.value = value</span>
+    <span class="c1">#                 panel.df = df</span>
+    <span class="c1">#                 print(f&quot;Loaded {len(df)} rows, columns: {opts}&quot;)</span>
+    <span class="c1">#             except Exception as e:</span>
+    <span class="c1">#                 print(&quot;❌ Error loading CSV:&quot;, e)</span>
+
+    <span class="c1">#     load_button.on_click(on_load_click)</span>
+
+    <span class="c1">#     def on_add_click(_):</span>
+    <span class="c1">#         with output:</span>
+    <span class="c1">#             clear_output()</span>
+    <span class="c1">#             try:</span>
+    <span class="c1">#                 df = panel.df</span>
+    <span class="c1">#                 lat, lon, val = lat_dd.value, lon_dd.value, val_dd.value</span>
+    <span class="c1">#                 data = df[[lat, lon, val]].values.tolist()</span>
+    <span class="c1">#                 hm = Heatmap(locations=data, radius=radius_slider.value, name=&quot;Heat map&quot;)</span>
+    <span class="c1">#                 self.add(hm)</span>
+    <span class="c1">#                 print(&quot;👍 Heatmap added&quot;)</span>
+    <span class="c1">#             except Exception as e:</span>
+    <span class="c1">#                 print(&quot;❌ Error adding heatmap:&quot;, e)</span>
+
+    <span class="c1">#     heatmap_button.on_click(on_add_click)</span>
+
+    <span class="c1">#     # Finally, add to the map</span>
+    <span class="c1">#     self.add(WidgetControl(widget=panel, position=position))</span>
+
+    <span class="c1"># def add_heatmap_gui(</span>
+    <span class="c1">#     self, position=&quot;topright&quot;, latitude=None, longitude=None, value=None, radius=25</span>
+    <span class="c1"># ):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Adds an inline GUI to the map for generating a heatmap from a CSV URL.</span>
+
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         position (str): Position of the widget on the map. Defaults to &quot;topright&quot;.</span>
+    <span class="c1">#         latitude (str, optional): The default latitude column name.</span>
+    <span class="c1">#         longitude (str, optional): The default longitude column name.</span>
+    <span class="c1">#         value (str, optional): The default value (intensity) column name.</span>
+    <span class="c1">#         radius (int, optional): Default radius of each point on the heatmap. Defaults to 25.</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     import pandas as pd</span>
+    <span class="c1">#     from ipyleaflet import Heatmap</span>
+
+    <span class="c1">#     # --- Core UI Components ---</span>
+    <span class="c1">#     toggle = widgets.ToggleButton(</span>
+    <span class="c1">#         value=True,</span>
+    <span class="c1">#         tooltip=&quot;Show/hide heatmap panel&quot;,</span>
+    <span class="c1">#         icon=&quot;fire&quot;,</span>
+    <span class="c1">#         layout=widgets.Layout(width=&quot;45px&quot;, height=&quot;45px&quot;),</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     url_text = widgets.Text(</span>
+    <span class="c1">#         placeholder=&quot;Paste CSV URL&quot;,</span>
+    <span class="c1">#         description=&quot;CSV URL:&quot;,</span>
+    <span class="c1">#         layout=widgets.Layout(width=&quot;350px&quot;),</span>
+    <span class="c1">#         style={&quot;description_width&quot;: &quot;initial&quot;},</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     lat_dd = widgets.Dropdown(</span>
+    <span class="c1">#         description=&quot;Lat&quot;, layout=widgets.Layout(width=&quot;200px&quot;)</span>
+    <span class="c1">#     )</span>
+    <span class="c1">#     lon_dd = widgets.Dropdown(</span>
+    <span class="c1">#         description=&quot;Lon&quot;, layout=widgets.Layout(width=&quot;200px&quot;)</span>
+    <span class="c1">#     )</span>
+    <span class="c1">#     val_dd = widgets.Dropdown(</span>
+    <span class="c1">#         description=&quot;Value&quot;, layout=widgets.Layout(width=&quot;200px&quot;)</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     radius_slider = widgets.IntSlider(</span>
+    <span class="c1">#         value=radius,</span>
+    <span class="c1">#         min=1,</span>
+    <span class="c1">#         max=50,</span>
+    <span class="c1">#         step=1,</span>
+    <span class="c1">#         description=&quot;Radius:&quot;,</span>
+    <span class="c1">#         continuous_update=False,</span>
+    <span class="c1">#         layout=widgets.Layout(width=&quot;250px&quot;),</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     load_button = widgets.Button(</span>
+    <span class="c1">#         description=&quot;Load CSV&quot;, icon=&quot;download&quot;, button_style=&quot;info&quot;</span>
+    <span class="c1">#     )</span>
+    <span class="c1">#     heatmap_button = widgets.Button(</span>
+    <span class="c1">#         description=&quot;Add Heatmap&quot;, icon=&quot;plus&quot;, button_style=&quot;success&quot;</span>
+    <span class="c1">#     )</span>
+    <span class="c1">#     close_button = widgets.Button(icon=&quot;times&quot;, layout=widgets.Layout(width=&quot;40px&quot;))</span>
+
+    <span class="c1">#     # --- Layout Containers ---</span>
+    <span class="c1">#     controls_box = widgets.VBox(</span>
+    <span class="c1">#         [</span>
+    <span class="c1">#             url_text,</span>
+    <span class="c1">#             load_button,</span>
+    <span class="c1">#             widgets.HBox([lat_dd, lon_dd, val_dd]),</span>
+    <span class="c1">#             radius_slider,</span>
+    <span class="c1">#             heatmap_button,</span>
+    <span class="c1">#         ]</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     hbox = widgets.VBox([toggle, controls_box, close_button])</span>
+
+    <span class="c1">#     # --- Behavior Handlers ---</span>
+    <span class="c1">#     def on_toggle_change(change):</span>
+    <span class="c1">#         hbox.children = (</span>
+    <span class="c1">#             [toggle, controls_box, close_button] if change[&quot;new&quot;] else [toggle]</span>
+    <span class="c1">#         )</span>
+
+    <span class="c1">#     toggle.observe(on_toggle_change, names=&quot;value&quot;)</span>
+
+    <span class="c1">#     def on_close_click(b):</span>
+    <span class="c1">#         hbox.close()</span>
+
+    <span class="c1">#     close_button.on_click(on_close_click)</span>
+
+    <span class="c1">#     def on_load_click(b):</span>
+    <span class="c1">#         try:</span>
+    <span class="c1">#             df = pd.read_csv(url_text.value)</span>
+    <span class="c1">#             options = df.columns.tolist()</span>
+    <span class="c1">#             lat_dd.options = options</span>
+    <span class="c1">#             lon_dd.options = options</span>
+    <span class="c1">#             val_dd.options = options</span>
+
+    <span class="c1">#             # Preselect columns if provided</span>
+    <span class="c1">#             if latitude in options:</span>
+    <span class="c1">#                 lat_dd.value = latitude</span>
+    <span class="c1">#             if longitude in options:</span>
+    <span class="c1">#                 lon_dd.value = longitude</span>
+    <span class="c1">#             if value in options:</span>
+    <span class="c1">#                 val_dd.value = value</span>
+
+    <span class="c1">#             hbox.df = df  # attach df to widget</span>
+    <span class="c1">#         except Exception as e:</span>
+    <span class="c1">#             print(f&quot;Error loading CSV: {e}&quot;)</span>
+
+    <span class="c1">#     load_button.on_click(on_load_click)</span>
+
+    <span class="c1">#     def on_add_click(b):</span>
+    <span class="c1">#         try:</span>
+    <span class="c1">#             df = hbox.df</span>
+    <span class="c1">#             lat, lon, val = lat_dd.value, lon_dd.value, val_dd.value</span>
+    <span class="c1">#             data = df[[lat, lon, val]].values.tolist()</span>
+    <span class="c1">#             heatmap = Heatmap(</span>
+    <span class="c1">#                 locations=data, radius=radius_slider.value, name=&quot;Heat map&quot;</span>
+    <span class="c1">#             )</span>
+    <span class="c1">#             self.add(heatmap)</span>
+    <span class="c1">#         except Exception as e:</span>
+    <span class="c1">#             print(f&quot;Error adding heatmap: {e}&quot;)</span>
+
+    <span class="c1">#     heatmap_button.on_click(on_add_click)</span>
+
+    <span class="c1">#     control = ipyleaflet.WidgetControl(widget=hbox, position=position)</span>
+    <span class="c1">#     self.add(control)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_google_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_type</span><span class="o">=</span><span class="s2">&quot;ROADMAP&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add Google Map to the map.</span>
@@ -2152,10 +2436,6 @@ Defaults to ["OpenStreetMap.Mapnik", "OpenTopoMap", "Esri.WorldImagery", "CartoD
 <li>The close button removes the widget from the map.</li>
 </ul>
 </div>
-<p>Event Handlers:
-    - <code>on_toggle_change</code>: Toggles the visibility of the dropdown and close button.
-    - <code>on_button_click</code>: Closes and removes the widget from the map.
-    - <code>on_dropdown_change</code>: Updates the map's basemap when a new option is selected.</p>
 
         <details class="quote">
           <summary>Source code in <code>beamgis/beamgis.py</code></summary>
@@ -2172,11 +2452,6 @@ Defaults to ["OpenStreetMap.Mapnik", "OpenTopoMap", "Esri.WorldImagery", "CartoD
 <span class="sd">        - A toggle button is used to show or hide the dropdown and close button.</span>
 <span class="sd">        - The dropdown allows users to select a basemap from the provided options.</span>
 <span class="sd">        - The close button removes the widget from the map.</span>
-
-<span class="sd">    Event Handlers:</span>
-<span class="sd">        - `on_toggle_change`: Toggles the visibility of the dropdown and close button.</span>
-<span class="sd">        - `on_button_click`: Closes and removes the widget from the map.</span>
-<span class="sd">        - `on_dropdown_change`: Updates the map&#39;s basemap when a new option is selected.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">options</span> <span class="o">=</span> <span class="p">[</span>
@@ -2186,72 +2461,62 @@ Defaults to ["OpenStreetMap.Mapnik", "OpenTopoMap", "Esri.WorldImagery", "CartoD
             <span class="s2">&quot;CartoDB.DarkMatter&quot;</span><span class="p">,</span>
         <span class="p">]</span>
 
+    <span class="c1"># --- Widgets setup ---</span>
     <span class="n">toggle</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButton</span><span class="p">(</span>
         <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Click me&quot;</span><span class="p">,</span>
         <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;map&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">toggle</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">)</span>
 
+    <span class="n">toggle</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">)</span>
     <span class="n">dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
         <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Basemap:&quot;</span><span class="p">,</span>
         <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
     <span class="p">)</span>
+
     <span class="n">dropdown</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">)</span>
+    <span class="n">close_btn</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">icon</span><span class="o">=</span><span class="s2">&quot;times&quot;</span><span class="p">)</span>
+    <span class="n">close_btn</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">)</span>
 
-    <span class="n">button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-        <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;times&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">button</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">)</span>
+    <span class="n">hbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">toggle</span><span class="p">,</span> <span class="n">dropdown</span><span class="p">,</span> <span class="n">close_btn</span><span class="p">])</span>
 
-    <span class="n">hbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">toggle</span><span class="p">,</span> <span class="n">dropdown</span><span class="p">,</span> <span class="n">button</span><span class="p">])</span>
-
+    <span class="c1"># --- Toggle visibility ---</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_toggle_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Toggles the visibility of the dropdown and close button.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            change (dict): The change event containing the new value of the toggle button.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]:</span>
-            <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">toggle</span><span class="p">,</span> <span class="n">dropdown</span><span class="p">,</span> <span class="n">button</span><span class="p">]</span>
+            <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">toggle</span><span class="p">,</span> <span class="n">dropdown</span><span class="p">,</span> <span class="n">close_btn</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">toggle</span><span class="p">]</span>
 
     <span class="n">toggle</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_toggle_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">on_button_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Closes and removes the widget from the map.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            b (ipywidgets.Button): The button click event.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="c1"># --- Close the control ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_close_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
         <span class="n">hbox</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">toggle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">dropdown</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">button</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">close_btn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="n">button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_button_click</span><span class="p">)</span>
+    <span class="n">close_btn</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_close_click</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">on_dropdown_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Updates the map&#39;s basemap when a new option is selected.</span>
+<span class="sd">        Adds a new basemap layer to the map when a new option is selected.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            change (dict): The change event containing the new value of the dropdown.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">])</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
+            <span class="n">new_tile_layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_layer</span><span class="p">(</span><span class="n">new_tile_layer</span><span class="p">)</span>
 
     <span class="n">dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_dropdown_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
 
     <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WidgetControl</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">hbox</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -2633,183 +2898,205 @@ Defaults to ["OpenStreetMap.Mapnik", "OpenTopoMap", "Esri.WorldImagery", "CartoD
 
 
 <h3 id="beamgis.beamgis.Map.add_heatmap_gui" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">add_heatmap_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s1">&#39;topright&#39;</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">add_heatmap_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s1">&#39;bottomright&#39;</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span></code>
 
 
 <a href="#beamgis.beamgis.Map.add_heatmap_gui" class="headerlink" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
-      <p>Adds an inline GUI to the map for generating a heatmap from a CSV URL.</p>
+      <p>Adds an inline GUI to the map for generating a heatmap from a CSV URL.
+Positioned in the bottom right with a clean, modern design.
+Output is cleared before each operation.</p>
 
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>position</code></td>
-        <td><code>str</code></td>
-        <td><p>Position of the widget on the map. Defaults to "topright".</p></td>
-        <td><code>&#39;topright&#39;</code></td>
-      </tr>
-      <tr>
-        <td><code>latitude</code></td>
-        <td><code>str</code></td>
-        <td><p>The default latitude column name.</p></td>
-        <td><code>None</code></td>
-      </tr>
-      <tr>
-        <td><code>longitude</code></td>
-        <td><code>str</code></td>
-        <td><p>The default longitude column name.</p></td>
-        <td><code>None</code></td>
-      </tr>
-      <tr>
-        <td><code>value</code></td>
-        <td><code>str</code></td>
-        <td><p>The default value (intensity) column name.</p></td>
-        <td><code>None</code></td>
-      </tr>
-      <tr>
-        <td><code>radius</code></td>
-        <td><code>int</code></td>
-        <td><p>Default radius of each point on the heatmap. Defaults to 25.</p></td>
-        <td><code>25</code></td>
-      </tr>
-  </tbody>
-</table>
         <details class="quote">
           <summary>Source code in <code>beamgis/beamgis.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_heatmap_gui</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">25</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">position</span><span class="o">=</span><span class="s2">&quot;bottomright&quot;</span><span class="p">,</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">longitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">radius</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds an inline GUI to the map for generating a heatmap from a CSV URL.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        position (str): Position of the widget on the map. Defaults to &quot;topright&quot;.</span>
-<span class="sd">        latitude (str, optional): The default latitude column name.</span>
-<span class="sd">        longitude (str, optional): The default longitude column name.</span>
-<span class="sd">        value (str, optional): The default value (intensity) column name.</span>
-<span class="sd">        radius (int, optional): Default radius of each point on the heatmap. Defaults to 25.</span>
+<span class="sd">    Positioned in the bottom right with a clean, modern design.</span>
+<span class="sd">    Output is cleared before each operation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ipyleaflet</span><span class="w"> </span><span class="kn">import</span> <span class="n">Heatmap</span>
 
     <span class="c1"># --- Core UI Components ---</span>
-    <span class="n">toggle</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButton</span><span class="p">(</span>
+    <span class="n">toggle</span> <span class="o">=</span> <span class="n">ToggleButton</span><span class="p">(</span>
         <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Show/hide heatmap panel&quot;</span><span class="p">,</span>
         <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;fire&quot;</span><span class="p">,</span>
-        <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">),</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;45px&quot;</span><span class="p">),</span>
+        <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">url_text</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span>
-        <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Paste CSV URL&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;CSV URL:&quot;</span><span class="p">,</span>
-        <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;350px&quot;</span><span class="p">),</span>
+    <span class="n">url_text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+        <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Paste CSV URL here...&quot;</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;300px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
         <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
     <span class="p">)</span>
 
-    <span class="n">lat_dd</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lat&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">)</span>
+    <span class="n">lat_dd</span> <span class="o">=</span> <span class="n">Dropdown</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Latitude:&quot;</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;60px&quot;</span><span class="p">},</span>
     <span class="p">)</span>
-    <span class="n">lon_dd</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lon&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">)</span>
+    <span class="n">lon_dd</span> <span class="o">=</span> <span class="n">Dropdown</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Longitude:&quot;</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;70px&quot;</span><span class="p">},</span>
     <span class="p">)</span>
-    <span class="n">val_dd</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">)</span>
+    <span class="n">val_dd</span> <span class="o">=</span> <span class="n">Dropdown</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Value:&quot;</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;50px&quot;</span><span class="p">},</span>
     <span class="p">)</span>
 
-    <span class="n">radius_slider</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">(</span>
+    <span class="n">radius_slider</span> <span class="o">=</span> <span class="n">IntSlider</span><span class="p">(</span>
         <span class="n">value</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
         <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="nb">max</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
         <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Radius:&quot;</span><span class="p">,</span>
         <span class="n">continuous_update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;250px&quot;</span><span class="p">),</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;180px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;50px&quot;</span><span class="p">},</span>
     <span class="p">)</span>
 
-    <span class="n">load_button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Load CSV&quot;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;download&quot;</span><span class="p">,</span> <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;info&quot;</span>
+    <span class="n">load_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Load CSV&quot;</span><span class="p">,</span>
+        <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;download&quot;</span><span class="p">,</span>
+        <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;100px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">heatmap_button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Add Heatmap&quot;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;plus&quot;</span><span class="p">,</span> <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;success&quot;</span>
+    <span class="n">heatmap_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Add Heatmap&quot;</span><span class="p">,</span>
+        <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;plus&quot;</span><span class="p">,</span>
+        <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;120px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">close_button</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">icon</span><span class="o">=</span><span class="s2">&quot;times&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">))</span>
+    <span class="n">close_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span>
+        <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;times&quot;</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;40px&quot;</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;0 5px&quot;</span><span class="p">),</span>
+        <span class="n">button_style</span><span class="o">=</span><span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="c1"># --- Layout Containers ---</span>
-    <span class="n">controls_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">(</span>
+    <span class="c1"># --- Output widget for messages ---</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span>
+            <span class="n">border</span><span class="o">=</span><span class="s2">&quot;1px solid #e0e0e0&quot;</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;10px&quot;</span><span class="p">,</span>
+            <span class="n">max_height</span><span class="o">=</span><span class="s2">&quot;150px&quot;</span><span class="p">,</span>
+            <span class="n">overflow</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+            <span class="n">margin</span><span class="o">=</span><span class="s2">&quot;5px 0&quot;</span><span class="p">,</span>
+            <span class="n">background_color</span><span class="o">=</span><span class="s2">&quot;#f9f9f9&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Header with title and close button</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">HBox</span><span class="p">(</span>
         <span class="p">[</span>
-            <span class="n">url_text</span><span class="p">,</span>
-            <span class="n">load_button</span><span class="p">,</span>
-            <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">lat_dd</span><span class="p">,</span> <span class="n">lon_dd</span><span class="p">,</span> <span class="n">val_dd</span><span class="p">]),</span>
-            <span class="n">radius_slider</span><span class="p">,</span>
-            <span class="n">heatmap_button</span><span class="p">,</span>
-        <span class="p">]</span>
+            <span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;h4 style=&#39;margin: 0; padding: 0;&#39;&gt;Heatmap Generator&lt;/h4&gt;&quot;</span><span class="p">),</span>
+            <span class="n">close_button</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span>
+            <span class="n">justify_content</span><span class="o">=</span><span class="s2">&quot;space-between&quot;</span><span class="p">,</span>
+            <span class="n">width</span><span class="o">=</span><span class="s2">&quot;100%&quot;</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;5px 10px&quot;</span><span class="p">,</span>
+            <span class="n">background_color</span><span class="o">=</span><span class="s2">&quot;#4CAF50&quot;</span><span class="p">,</span>
+            <span class="n">border_radius</span><span class="o">=</span><span class="s2">&quot;5px 5px 0 0&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">hbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">toggle</span><span class="p">,</span> <span class="n">controls_box</span><span class="p">,</span> <span class="n">close_button</span><span class="p">])</span>
+    <span class="c1"># --- Layout ---</span>
+    <span class="n">controls</span> <span class="o">=</span> <span class="n">VBox</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">HBox</span><span class="p">([</span><span class="n">url_text</span><span class="p">,</span> <span class="n">load_button</span><span class="p">]),</span>
+            <span class="n">HBox</span><span class="p">([</span><span class="n">lat_dd</span><span class="p">,</span> <span class="n">lon_dd</span><span class="p">,</span> <span class="n">val_dd</span><span class="p">]),</span>
+            <span class="n">HBox</span><span class="p">([</span><span class="n">radius_slider</span><span class="p">,</span> <span class="n">heatmap_button</span><span class="p">]),</span>
+        <span class="p">],</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">padding</span><span class="o">=</span><span class="s2">&quot;10px&quot;</span><span class="p">,</span> <span class="n">align_items</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;100%&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Main panel with header, controls and output</span>
+    <span class="n">panel</span> <span class="o">=</span> <span class="n">VBox</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">header</span><span class="p">,</span> <span class="n">controls</span><span class="p">,</span> <span class="n">output</span><span class="p">],</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span>
+            <span class="n">background_color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="s2">&quot;1px solid #e0e0e0&quot;</span><span class="p">,</span>
+            <span class="n">border_radius</span><span class="o">=</span><span class="s2">&quot;5px&quot;</span><span class="p">,</span>
+            <span class="n">box_shadow</span><span class="o">=</span><span class="s2">&quot;0 2px 5px rgba(0,0,0,0.1)&quot;</span><span class="p">,</span>
+            <span class="n">width</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+            <span class="n">max_width</span><span class="o">=</span><span class="s2">&quot;800px&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Collapsible container</span>
+    <span class="n">collapsible</span> <span class="o">=</span> <span class="n">VBox</span><span class="p">([</span><span class="n">toggle</span><span class="p">,</span> <span class="n">panel</span><span class="p">])</span>
 
     <span class="c1"># --- Behavior Handlers ---</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_toggle_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-        <span class="n">hbox</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">[</span><span class="n">toggle</span><span class="p">,</span> <span class="n">controls_box</span><span class="p">,</span> <span class="n">close_button</span><span class="p">]</span> <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="n">toggle</span><span class="p">]</span>
-        <span class="p">)</span>
+        <span class="n">collapsible</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">toggle</span><span class="p">,</span> <span class="n">panel</span><span class="p">]</span> <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="n">toggle</span><span class="p">]</span>
 
     <span class="n">toggle</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_toggle_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">on_close_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-        <span class="n">hbox</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_close_click</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="n">collapsible</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="n">close_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_close_click</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">on_load_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url_text</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-            <span class="n">options</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="n">lat_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
-            <span class="n">lon_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
-            <span class="n">val_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
-
-            <span class="c1"># Preselect columns if provided</span>
-            <span class="k">if</span> <span class="n">latitude</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
-                <span class="n">lat_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">latitude</span>
-            <span class="k">if</span> <span class="n">longitude</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
-                <span class="n">lon_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">longitude</span>
-            <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
-                <span class="n">val_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-
-            <span class="n">hbox</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>  <span class="c1"># attach df to widget</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error loading CSV: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_load_click</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">clear_output</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url_text</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">opts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="n">lat_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">opts</span>
+                <span class="n">lon_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">opts</span>
+                <span class="n">val_dd</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">opts</span>
+                <span class="c1"># Preselect if defaults provided</span>
+                <span class="k">if</span> <span class="n">latitude</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                    <span class="n">lat_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">latitude</span>
+                <span class="k">if</span> <span class="n">longitude</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                    <span class="n">lon_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">longitude</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                    <span class="n">val_dd</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="n">panel</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Loaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Columns: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ Error loading CSV:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 
     <span class="n">load_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_load_click</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">on_add_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">hbox</span><span class="o">.</span><span class="n">df</span>
-            <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">lat_dd</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">lon_dd</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">val_dd</span><span class="o">.</span><span class="n">value</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">val</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="n">heatmap</span> <span class="o">=</span> <span class="n">Heatmap</span><span class="p">(</span>
-                <span class="n">locations</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius_slider</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Heat map&quot;</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">heatmap</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error adding heatmap: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_add_click</span><span class="p">(</span><span class="n">_</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">clear_output</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">df</span>
+                <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">lat_dd</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">lon_dd</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">val_dd</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">val</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="n">hm</span> <span class="o">=</span> <span class="n">Heatmap</span><span class="p">(</span>
+                    <span class="n">locations</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius_slider</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Heat map&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">hm</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🌋 Heatmap successfully added!&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📍 Points: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔘 Radius: </span><span class="si">{</span><span class="n">radius_slider</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ Error adding heatmap:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 
     <span class="n">heatmap_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_add_click</span><span class="p">)</span>
 
-    <span class="n">control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WidgetControl</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">hbox</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">control</span><span class="p">)</span>
+    <span class="n">heatmap_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_add_click</span><span class="p">)</span>
+
+    <span class="c1"># Finally, add to the map</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">WidgetControl</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">collapsible</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">))</span>
 </code></pre></div>
         </details>
     </div>
@@ -4345,10 +4632,10 @@ Defaults to ["OpenStreetMap.Mapnik", "OpenTopoMap", "Esri.WorldImagery", "CartoD
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
