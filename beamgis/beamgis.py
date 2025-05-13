@@ -8,6 +8,21 @@ import ipywidgets as widgets
 import pandas as pd
 from IPython.display import display
 from .common import *
+from IPython.display import clear_output
+from ipywidgets import (
+    Text,
+    Dropdown,
+    IntSlider,
+    Button,
+    ToggleButton,
+    HBox,
+    VBox,
+    Output,
+    Layout,
+    HTML,
+)
+from ipyleaflet import Heatmap, WidgetControl
+from beamgis.heatmapwidget import HeatmapWidget
 
 
 class Map(ipyleaflet.Map):
@@ -41,11 +56,6 @@ class Map(ipyleaflet.Map):
             - A toggle button is used to show or hide the dropdown and close button.
             - The dropdown allows users to select a basemap from the provided options.
             - The close button removes the widget from the map.
-
-        Event Handlers:
-            - `on_toggle_change`: Toggles the visibility of the dropdown and close button.
-            - `on_button_click`: Closes and removes the widget from the map.
-            - `on_dropdown_change`: Updates the map's basemap when a new option is selected.
         """
         if options is None:
             options = [
@@ -55,196 +65,485 @@ class Map(ipyleaflet.Map):
                 "CartoDB.DarkMatter",
             ]
 
+        # --- Widgets setup ---
         toggle = widgets.ToggleButton(
             value=True,
             button_style="",
             tooltip="Click me",
             icon="map",
         )
-        toggle.layout = widgets.Layout(width="45px", height="45px")
 
+        toggle.layout = widgets.Layout(width="45px", height="45px")
         dropdown = widgets.Dropdown(
             options=options,
             value=options[0],
             description="Basemap:",
             style={"description_width": "initial"},
         )
+
         dropdown.layout = widgets.Layout(width="250px", height="40px")
+        close_btn = widgets.Button(icon="times")
+        close_btn.layout = widgets.Layout(width="40px", height="40px")
 
-        button = widgets.Button(
-            icon="times",
-        )
-        button.layout = widgets.Layout(width="40px", height="40px")
+        hbox = widgets.HBox([toggle, dropdown, close_btn])
 
-        hbox = widgets.HBox([toggle, dropdown, button])
-
+        # --- Toggle visibility ---
         def on_toggle_change(change):
-            """
-            Toggles the visibility of the dropdown and close button.
-
-            Args:
-                change (dict): The change event containing the new value of the toggle button.
-            """
             if change["new"]:
-                hbox.children = [toggle, dropdown, button]
+                hbox.children = [toggle, dropdown, close_btn]
             else:
                 hbox.children = [toggle]
 
         toggle.observe(on_toggle_change, names="value")
 
-        def on_button_click(b):
-            """
-            Closes and removes the widget from the map.
-
-            Args:
-                b (ipywidgets.Button): The button click event.
-            """
+        # --- Close the control ---
+        def on_close_click(b):
             hbox.close()
             toggle.close()
             dropdown.close()
-            button.close()
+            close_btn.close()
 
-        button.on_click(on_button_click)
+        close_btn.on_click(on_close_click)
 
         def on_dropdown_change(change):
             """
-            Updates the map's basemap when a new option is selected.
+            Adds a new basemap layer to the map when a new option is selected.
 
             Args:
                 change (dict): The change event containing the new value of the dropdown.
             """
             if change["new"]:
-                self.layers = self.layers[:-2]
-                self.add_basemap(change["new"])
+                url = eval(f"ipyleaflet.basemaps.{change['new']}").build_url()
+                new_tile_layer = ipyleaflet.TileLayer(url=url, name=change["new"])
+                self.add_layer(new_tile_layer)
 
         dropdown.observe(on_dropdown_change, names="value")
 
         control = ipyleaflet.WidgetControl(widget=hbox, position=position)
-        self.add(control)
+        self.add_control(control)
 
     def add_heatmap_gui(
-        self, position="topright", latitude=None, longitude=None, value=None, radius=25
+        self,
+        position="bottomright",
+        latitude=None,
+        longitude=None,
+        value=None,
+        radius=25,
     ):
         """
         Adds an inline GUI to the map for generating a heatmap from a CSV URL.
-
-        Args:
-            position (str): Position of the widget on the map. Defaults to "topright".
-            latitude (str, optional): The default latitude column name.
-            longitude (str, optional): The default longitude column name.
-            value (str, optional): The default value (intensity) column name.
-            radius (int, optional): Default radius of each point on the heatmap. Defaults to 25.
+        Positioned in the bottom right with a clean, modern design.
+        Output is cleared before each operation.
         """
         import pandas as pd
-        from ipyleaflet import Heatmap
 
         # --- Core UI Components ---
-        toggle = widgets.ToggleButton(
+        toggle = ToggleButton(
             value=True,
             tooltip="Show/hide heatmap panel",
             icon="fire",
-            layout=widgets.Layout(width="45px", height="45px"),
+            layout=Layout(width="45px", height="45px"),
+            button_style="info",
         )
 
-        url_text = widgets.Text(
-            placeholder="Paste CSV URL",
-            description="CSV URL:",
-            layout=widgets.Layout(width="350px"),
+        url_text = Text(
+            placeholder="Paste CSV URL here...",
+            layout=Layout(width="300px", margin="0 5px"),
             style={"description_width": "initial"},
         )
 
-        lat_dd = widgets.Dropdown(
-            description="Lat", layout=widgets.Layout(width="150px")
+        lat_dd = Dropdown(
+            description="Latitude:",
+            layout=Layout(width="150px", margin="0 5px"),
+            style={"description_width": "60px"},
         )
-        lon_dd = widgets.Dropdown(
-            description="Lon", layout=widgets.Layout(width="150px")
+        lon_dd = Dropdown(
+            description="Longitude:",
+            layout=Layout(width="150px", margin="0 5px"),
+            style={"description_width": "70px"},
         )
-        val_dd = widgets.Dropdown(
-            description="Value", layout=widgets.Layout(width="150px")
+        val_dd = Dropdown(
+            description="Value:",
+            layout=Layout(width="150px", margin="0 5px"),
+            style={"description_width": "50px"},
         )
 
-        radius_slider = widgets.IntSlider(
+        radius_slider = IntSlider(
             value=radius,
             min=1,
             max=50,
             step=1,
             description="Radius:",
             continuous_update=False,
-            layout=widgets.Layout(width="250px"),
+            layout=Layout(width="180px", margin="0 5px"),
+            style={"description_width": "50px"},
         )
 
-        load_button = widgets.Button(
-            description="Load CSV", icon="download", button_style="info"
+        load_button = Button(
+            description="Load CSV",
+            icon="download",
+            button_style="info",
+            layout=Layout(width="100px", margin="0 5px"),
         )
-        heatmap_button = widgets.Button(
-            description="Add Heatmap", icon="plus", button_style="success"
+        heatmap_button = Button(
+            description="Add Heatmap",
+            icon="plus",
+            button_style="success",
+            layout=Layout(width="120px", margin="0 5px"),
         )
-        close_button = widgets.Button(icon="times", layout=widgets.Layout(width="40px"))
+        close_button = Button(
+            icon="times",
+            layout=Layout(width="40px", margin="0 5px"),
+            button_style="danger",
+        )
 
-        # --- Layout Containers ---
-        controls_box = widgets.VBox(
+        # --- Output widget for messages ---
+        output = Output(
+            layout=Layout(
+                border="1px solid #e0e0e0",
+                padding="10px",
+                max_height="150px",
+                overflow="auto",
+                margin="5px 0",
+                background_color="#f9f9f9",
+            )
+        )
+
+        # Header with title and close button
+        header = HBox(
             [
-                url_text,
-                load_button,
-                widgets.HBox([lat_dd, lon_dd, val_dd]),
-                radius_slider,
-                heatmap_button,
-            ]
+                HTML("<h4 style='margin: 0; padding: 0;'>Heatmap Generator</h4>"),
+                close_button,
+            ],
+            layout=Layout(
+                justify_content="space-between",
+                width="100%",
+                padding="5px 10px",
+                background_color="#4CAF50",
+                border_radius="5px 5px 0 0",
+            ),
         )
 
-        hbox = widgets.VBox([toggle, controls_box, close_button])
+        # --- Layout ---
+        controls = VBox(
+            [
+                HBox([url_text, load_button]),
+                HBox([lat_dd, lon_dd, val_dd]),
+                HBox([radius_slider, heatmap_button]),
+            ],
+            layout=Layout(padding="10px", align_items="center", width="100%"),
+        )
+
+        # Main panel with header, controls and output
+        panel = VBox(
+            [header, controls, output],
+            layout=Layout(
+                background_color="white",
+                border="1px solid #e0e0e0",
+                border_radius="5px",
+                box_shadow="0 2px 5px rgba(0,0,0,0.1)",
+                width="auto",
+                max_width="800px",
+            ),
+        )
+
+        # Collapsible container
+        collapsible = VBox([toggle, panel])
 
         # --- Behavior Handlers ---
         def on_toggle_change(change):
-            hbox.children = (
-                [toggle, controls_box, close_button] if change["new"] else [toggle]
-            )
+            collapsible.children = [toggle, panel] if change["new"] else [toggle]
 
         toggle.observe(on_toggle_change, names="value")
 
-        def on_close_click(b):
-            hbox.close()
+        def on_close_click(_):
+            collapsible.close()
 
         close_button.on_click(on_close_click)
 
-        def on_load_click(b):
-            try:
-                df = pd.read_csv(url_text.value)
-                options = df.columns.tolist()
-                lat_dd.options = options
-                lon_dd.options = options
-                val_dd.options = options
-
-                # Preselect columns if provided
-                if latitude in options:
-                    lat_dd.value = latitude
-                if longitude in options:
-                    lon_dd.value = longitude
-                if value in options:
-                    val_dd.value = value
-
-                hbox.df = df  # attach df to widget
-            except Exception as e:
-                print(f"Error loading CSV: {e}")
+        def on_load_click(_):
+            with output:
+                clear_output()
+                try:
+                    df = pd.read_csv(url_text.value)
+                    opts = df.columns.tolist()
+                    lat_dd.options = opts
+                    lon_dd.options = opts
+                    val_dd.options = opts
+                    # Preselect if defaults provided
+                    if latitude in opts:
+                        lat_dd.value = latitude
+                    if longitude in opts:
+                        lon_dd.value = longitude
+                    if value in opts:
+                        val_dd.value = value
+                    panel.df = df
+                    print(f"✅ Loaded {len(df)} rows")
+                    print(f"📊 Columns: {', '.join(opts)}")
+                except Exception as e:
+                    print("❌ Error loading CSV:", e)
 
         load_button.on_click(on_load_click)
 
-        def on_add_click(b):
-            try:
-                df = hbox.df
-                lat, lon, val = lat_dd.value, lon_dd.value, val_dd.value
-                data = df[[lat, lon, val]].values.tolist()
-                heatmap = Heatmap(
-                    locations=data, radius=radius_slider.value, name="Heat map"
-                )
-                self.add(heatmap)
-            except Exception as e:
-                print(f"Error adding heatmap: {e}")
+        def on_add_click(_):
+            with output:
+                clear_output()
+                try:
+                    df = panel.df
+                    lat, lon, val = lat_dd.value, lon_dd.value, val_dd.value
+                    data = df[[lat, lon, val]].values.tolist()
+                    hm = Heatmap(
+                        locations=data, radius=radius_slider.value, name="Heat map"
+                    )
+                    self.add(hm)
+                    print("🌋 Heatmap successfully added!")
+                    print(f"📍 Points: {len(data)}")
+                    print(f"🔘 Radius: {radius_slider.value}")
+                except Exception as e:
+                    print("❌ Error adding heatmap:", e)
 
         heatmap_button.on_click(on_add_click)
 
-        control = ipyleaflet.WidgetControl(widget=hbox, position=position)
-        self.add(control)
+        heatmap_button.on_click(on_add_click)
+
+        # Finally, add to the map
+        self.add(WidgetControl(widget=collapsible, position=position))
+
+    # def add_heatmap_gui(
+    #     self, position="topright", latitude=None, longitude=None, value=None, radius=25
+    # ):
+    #     """
+    #     Adds an inline GUI to the map for generating a heatmap from a CSV URL.
+    #     Now laid out horizontally on a light-green background,
+    #     with a dedicated Output pane that is cleared on each run.
+    #     """
+    #     import pandas as pd
+
+    #     # --- Core UI Components ---
+    #     toggle = ToggleButton(
+    #         value=True, tooltip="Show/hide heatmap panel", icon="fire",
+    #         layout=Layout(width="45px", height="45px")
+    #     )
+
+    #     url_text = Text(
+    #         placeholder="Paste CSV URL", description="CSV URL:",
+    #         layout=Layout(width="300px"), style={"description_width": "initial"}
+    #     )
+
+    #     lat_dd = Dropdown(description="Lat", layout=Layout(width="120px"))
+    #     lon_dd = Dropdown(description="Lon", layout=Layout(width="120px"))
+    #     val_dd = Dropdown(description="Value", layout=Layout(width="120px"))
+
+    #     radius_slider = IntSlider(
+    #         value=radius, min=1, max=50, step=1, description="Radius:",
+    #         continuous_update=False, layout=Layout(width="200px")
+    #     )
+
+    #     load_button = Button(description="Load CSV", icon="download", button_style="info")
+    #     heatmap_button = Button(description="Add Heatmap", icon="plus", button_style="success")
+    #     close_button = Button(icon="times", layout=Layout(width="40px"))
+
+    #     # --- Output widget for messages ---
+    #     output = Output(layout=Layout(border="1px solid #ccc", padding="5px", max_height="150px", overflow="auto"))
+
+    #     # --- Layout in a single horizontal box ---
+    #     controls = HBox(
+    #         [
+    #             url_text, load_button,
+    #             lat_dd, lon_dd, val_dd,
+    #             radius_slider, heatmap_button,
+    #             close_button
+    #         ],
+    #         layout=Layout(
+    #             background_color="lightgreen",
+    #             padding="10px",
+    #             align_items="center",
+    #             flex_flow="row wrap",
+    #             width="100%"
+    #         )
+    #     )
+
+    #     # Stack the toggle, controls row, and output pane
+    #     panel = VBox([toggle, controls, output])
+
+    #     # --- Behavior Handlers ---
+    #     def on_toggle_change(change):
+    #         if change["new"]:
+    #             panel.children = [toggle, controls, output]
+    #         else:
+    #             panel.children = [toggle]
+
+    #     toggle.observe(on_toggle_change, names="value")
+
+    #     def on_close_click(_):
+    #         panel.close()
+
+    #     close_button.on_click(on_close_click)
+
+    #     def on_load_click(_):
+    #         with output:
+    #             clear_output()
+    #             try:
+    #                 df = pd.read_csv(url_text.value)
+    #                 opts = df.columns.tolist()
+    #                 lat_dd.options = opts
+    #                 lon_dd.options = opts
+    #                 val_dd.options = opts
+    #                 # Preselect if defaults provided
+    #                 if latitude in opts:
+    #                     lat_dd.value = latitude
+    #                 if longitude in opts:
+    #                     lon_dd.value = longitude
+    #                 if value in opts:
+    #                     val_dd.value = value
+    #                 panel.df = df
+    #                 print(f"Loaded {len(df)} rows, columns: {opts}")
+    #             except Exception as e:
+    #                 print("❌ Error loading CSV:", e)
+
+    #     load_button.on_click(on_load_click)
+
+    #     def on_add_click(_):
+    #         with output:
+    #             clear_output()
+    #             try:
+    #                 df = panel.df
+    #                 lat, lon, val = lat_dd.value, lon_dd.value, val_dd.value
+    #                 data = df[[lat, lon, val]].values.tolist()
+    #                 hm = Heatmap(locations=data, radius=radius_slider.value, name="Heat map")
+    #                 self.add(hm)
+    #                 print("👍 Heatmap added")
+    #             except Exception as e:
+    #                 print("❌ Error adding heatmap:", e)
+
+    #     heatmap_button.on_click(on_add_click)
+
+    #     # Finally, add to the map
+    #     self.add(WidgetControl(widget=panel, position=position))
+
+    # def add_heatmap_gui(
+    #     self, position="topright", latitude=None, longitude=None, value=None, radius=25
+    # ):
+    #     """
+    #     Adds an inline GUI to the map for generating a heatmap from a CSV URL.
+
+    #     Args:
+    #         position (str): Position of the widget on the map. Defaults to "topright".
+    #         latitude (str, optional): The default latitude column name.
+    #         longitude (str, optional): The default longitude column name.
+    #         value (str, optional): The default value (intensity) column name.
+    #         radius (int, optional): Default radius of each point on the heatmap. Defaults to 25.
+    #     """
+    #     import pandas as pd
+    #     from ipyleaflet import Heatmap
+
+    #     # --- Core UI Components ---
+    #     toggle = widgets.ToggleButton(
+    #         value=True,
+    #         tooltip="Show/hide heatmap panel",
+    #         icon="fire",
+    #         layout=widgets.Layout(width="45px", height="45px"),
+    #     )
+
+    #     url_text = widgets.Text(
+    #         placeholder="Paste CSV URL",
+    #         description="CSV URL:",
+    #         layout=widgets.Layout(width="350px"),
+    #         style={"description_width": "initial"},
+    #     )
+
+    #     lat_dd = widgets.Dropdown(
+    #         description="Lat", layout=widgets.Layout(width="200px")
+    #     )
+    #     lon_dd = widgets.Dropdown(
+    #         description="Lon", layout=widgets.Layout(width="200px")
+    #     )
+    #     val_dd = widgets.Dropdown(
+    #         description="Value", layout=widgets.Layout(width="200px")
+    #     )
+
+    #     radius_slider = widgets.IntSlider(
+    #         value=radius,
+    #         min=1,
+    #         max=50,
+    #         step=1,
+    #         description="Radius:",
+    #         continuous_update=False,
+    #         layout=widgets.Layout(width="250px"),
+    #     )
+
+    #     load_button = widgets.Button(
+    #         description="Load CSV", icon="download", button_style="info"
+    #     )
+    #     heatmap_button = widgets.Button(
+    #         description="Add Heatmap", icon="plus", button_style="success"
+    #     )
+    #     close_button = widgets.Button(icon="times", layout=widgets.Layout(width="40px"))
+
+    #     # --- Layout Containers ---
+    #     controls_box = widgets.VBox(
+    #         [
+    #             url_text,
+    #             load_button,
+    #             widgets.HBox([lat_dd, lon_dd, val_dd]),
+    #             radius_slider,
+    #             heatmap_button,
+    #         ]
+    #     )
+
+    #     hbox = widgets.VBox([toggle, controls_box, close_button])
+
+    #     # --- Behavior Handlers ---
+    #     def on_toggle_change(change):
+    #         hbox.children = (
+    #             [toggle, controls_box, close_button] if change["new"] else [toggle]
+    #         )
+
+    #     toggle.observe(on_toggle_change, names="value")
+
+    #     def on_close_click(b):
+    #         hbox.close()
+
+    #     close_button.on_click(on_close_click)
+
+    #     def on_load_click(b):
+    #         try:
+    #             df = pd.read_csv(url_text.value)
+    #             options = df.columns.tolist()
+    #             lat_dd.options = options
+    #             lon_dd.options = options
+    #             val_dd.options = options
+
+    #             # Preselect columns if provided
+    #             if latitude in options:
+    #                 lat_dd.value = latitude
+    #             if longitude in options:
+    #                 lon_dd.value = longitude
+    #             if value in options:
+    #                 val_dd.value = value
+
+    #             hbox.df = df  # attach df to widget
+    #         except Exception as e:
+    #             print(f"Error loading CSV: {e}")
+
+    #     load_button.on_click(on_load_click)
+
+    #     def on_add_click(b):
+    #         try:
+    #             df = hbox.df
+    #             lat, lon, val = lat_dd.value, lon_dd.value, val_dd.value
+    #             data = df[[lat, lon, val]].values.tolist()
+    #             heatmap = Heatmap(
+    #                 locations=data, radius=radius_slider.value, name="Heat map"
+    #             )
+    #             self.add(heatmap)
+    #         except Exception as e:
+    #             print(f"Error adding heatmap: {e}")
+
+    #     heatmap_button.on_click(on_add_click)
+
+    #     control = ipyleaflet.WidgetControl(widget=hbox, position=position)
+    #     self.add(control)
 
     def add_google_map(self, map_type="ROADMAP"):
         """Add Google Map to the map.
