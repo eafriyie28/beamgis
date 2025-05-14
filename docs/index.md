@@ -4,7 +4,7 @@
 [![image](https://img.shields.io/pypi/v/beamgis.svg)](https://pypi.python.org/pypi/beamgis)
 [![image](https://img.shields.io/conda/vn/conda-forge/beamgis.svg)](https://anaconda.org/conda-forge/beamgis)
 
-[![logo](https://raw.githubusercontent.com/eafriyie28/beamgis/blob/main/docs/logo/beamgis.png)](https://github.com/eafriyie28/beamgis/blob/main/docs/logo/beamgis.png)
+[![logo](https://raw.githubusercontent.com/eafriyie28/beamgis/main/docs/logo/beamgis.png)](https://github.com/eafriyie28/beamgis/blob/main/docs/beamgis_logo.png)
 
 
 
