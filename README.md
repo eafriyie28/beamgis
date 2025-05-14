@@ -4,15 +4,16 @@
 [![image](https://img.shields.io/pypi/v/beamgis.svg)](https://pypi.python.org/pypi/beamgis)
 [![image](https://img.shields.io/conda/vn/conda-forge/beamgis.svg)](https://anaconda.org/conda-forge/beamgis)
 
-![Logo](https://github.com/eafriyie28/beamgis/blob/main/docs/logo/beamgis.png)
+![logo](https://github.com/eafriyie28/beamgis/blob/main/docs/logo/beamgis.png)
+
 
 
 **A python package for geospatial analysis and mapping**
 
 
--   GitHub: https://github.com/eafriyie28/beamgis
--   Documentation: https://eafriyie28.github.io/beamgis
--   Pypi: https://pypi.org/project/beamgis/
+-   GitHub: <https://github.com/eafriyie28/beamgis>
+-   Documentation: <https://eafriyie28.github.io/beamgis>
+-   Pypi: <https://pypi.org/project/beamgis>
 -   Tutorials:
 -   Free software: MIT License
 
@@ -36,6 +37,7 @@
 ## Usage
 Launch the interactive notebook tutorial for the beamgis Python package with Google Colab
 ```python
+!pip install beamgis
 import beamgis
 ```
 Check beamgis documentation website for details - https://eafriyie28.github.io/beamgis
