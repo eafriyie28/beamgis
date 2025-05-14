@@ -317,18 +317,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#introduction" class="md-nav__link">
     <span class="md-ellipsis">
-      Features
+      Introduction
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#process-geospatial-data" class="md-nav__link">
+  <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
-      Process geospatial data
+      Features
     </span>
   </a>
   
@@ -1014,18 +1014,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#introduction" class="md-nav__link">
     <span class="md-ellipsis">
-      Features
+      Introduction
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#process-geospatial-data" class="md-nav__link">
+  <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
-      Process geospatial data
+      Features
     </span>
   </a>
   
@@ -1062,23 +1062,38 @@
   
 
 
-<h1 id="welcome-to-beamgis">Welcome to beamgis<a class="headerlink" href="#welcome-to-beamgis" title="Permanent link">&para;</a></h1>
-<p><a href="https://pypi.python.org/pypi/beamgis"><img alt="image" src="https://img.shields.io/pypi/v/beamgis.svg" /></a></p>
+<h1 id="welcome-to-beamgis">Welcome to BeamGIS<a class="headerlink" href="#welcome-to-beamgis" title="Permanent link">&para;</a></h1>
+<p><a href="https://pypi.python.org/pypi/beamgis"><img alt="image" src="https://img.shields.io/pypi/v/beamgis.svg" /></a>
+<a href="https://anaconda.org/conda-forge/beamgis"><img alt="image" src="https://img.shields.io/conda/vn/conda-forge/beamgis.svg" /></a></p>
+<p><img alt="Logo" src="https://github.com/eafriyie28/beamgis/blob/main/docs/logo/beamgis.png" /></p>
 <p><strong>A python package for geospatial analysis and mapping</strong></p>
 <ul>
+<li>GitHub: https://github.com/eafriyie28/beamgis</li>
+<li>Documentation: https://eafriyie28.github.io/beamgis</li>
+<li>Pypi: https://pypi.org/project/beamgis/</li>
+<li>Tutorials:</li>
 <li>Free software: MIT License</li>
-<li>Documentation: <a href="https://eafriyie28.github.io/beamgis">https://eafriyie28.github.io/beamgis</a></li>
 </ul>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p><a href="https://pypi.org/project/beamgis/">BeamGIS</a> is a friendly, beginner-oriented Python package that brings interactive mapping and geospatial analysis to your Jupyter notebooks with minimal coding. Designed especially for high school students and non-specialists, it offers a gentle introduction to powerful GIS concepts inspired by <a href="https://leafmap.org/">Leafmap</a> Geospatial Python Package. Under the hood, BeamGIS leverages open-source gems; Folium and ipyleaflet for crisp, interactive maps; <a href="https://www.whiteboxgeo.com/">WhiteboxTools</a> and <a href="https://github.com/opengeos/whiteboxgui">WhiteboxGUI</a> for robust spatial analyses; and ipywidgets to craft intuitive, responsive interfaces. Whether you are exploring your first dataset or building simple web maps, BeamGIS makes the journey both approachable and enjoyable.</p>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Create interactive maps</li>
-<li>
-<h2 id="process-geospatial-data">Process geospatial data<a class="headerlink" href="#process-geospatial-data" title="Permanent link">&para;</a></h2>
-</li>
+<li>Create an interactive map with a simple one line code.</li>
+<li>Changing basemaps interactively.</li>
+<li>Changing basemaps interactively through a basemapgui.</li>
+<li>Adding  XYZ, WMS and vector tile services.</li>
+<li>Display vector data from geodata frame, geojson, shapefiles</li>
+<li>Display raster data.</li>
+<li>Create Split Maps.</li>
+<li>Creating heatmaps with a csv url.</li>
+<li>Creating heatmaps with a csv url using heatmapgui.</li>
+<li>Visualize COG assets found within STAC items with a time slider.</li>
 </ul>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>Launch the interactive notebook tutorial for the beamgis Python package with Google Colab
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">beamgis</span>
 </code></pre></div></td></tr></table></div>
+Check beamgis documentation website for details - https://eafriyie28.github.io/beamgis</p>
 
 
 
@@ -1101,7 +1116,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 2, 2025 15:34:35"><span class="timeago" datetime="2025-04-02T15:34:35+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 2, 2025 15:34:35">2025-04-02</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="May 14, 2025 06:11:40"><span class="timeago" datetime="2025-05-14T06:11:40+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="May 14, 2025 06:11:40">2025-05-14</span>
   </span>
 
     
