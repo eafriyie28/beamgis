@@ -14,7 +14,7 @@
 -   GitHub: <https://github.com/eafriyie28/beamgis>
 -   Documentation: <https://eafriyie28.github.io/beamgis>
 -   Pypi: <https://pypi.org/project/beamgis>
--   Tutorials:
+-   Tutorials: <https://youtu.be/elXFhu888DI>
 -   Free software: MIT License
 
 
