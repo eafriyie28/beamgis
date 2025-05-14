@@ -1,4 +1,4 @@
-# Welcome to beamgis
+# Welcome to BeamGIS
 
 
 [![image](https://img.shields.io/pypi/v/beamgis.svg)](https://pypi.python.org/pypi/beamgis)
