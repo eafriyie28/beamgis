@@ -4,7 +4,7 @@
 [![image](https://img.shields.io/pypi/v/beamgis.svg)](https://pypi.python.org/pypi/beamgis)
 [![image](https://img.shields.io/conda/vn/conda-forge/beamgis.svg)](https://anaconda.org/conda-forge/beamgis)
 
-[![Logo](https://raw.githubusercontent.com/eafriyie28/beamgis/blob/main/docs/logo/beamgis%20logo.png)](https://github.com/eafriyie28/beamgis/blob/main/docs/logo/beamgis.png)
+![Logo](https://github.com/eafriyie28/beamgis/blob/main/docs/logo/beamgis.png)
 
 
 **A python package for geospatial analysis and mapping**
