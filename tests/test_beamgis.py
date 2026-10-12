@@ -2,7 +2,6 @@
 
 """Tests for `beamgis` package."""
 
-
 import unittest
 
 from beamgis import beamgis
