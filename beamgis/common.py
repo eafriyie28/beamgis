@@ -966,16 +966,10 @@ def create_code_cell(code="", where="below"):
     #     pass
 
     encoded_code = (base64.b64encode(str.encode(code))).decode()
-    display(
-        Javascript(
-            """
+    display(Javascript("""
         var code = IPython.notebook.insert_cell_{0}('code');
         code.set_text(atob("{1}"));
-    """.format(
-                where, encoded_code
-            )
-        )
-    )
+    """.format(where, encoded_code)))
 
 
 def local_tile_pixel_value(
@@ -12419,13 +12413,11 @@ def vector_to_parquet_batch(input_dir, output_dir=None, file_ext=".geojson", **k
 
         try:
             # Execute the conversion
-            conn.execute(
-                f"""
+            conn.execute(f"""
                 COPY (
                     SELECT * FROM ST_Read('{file}')
                 ) TO '{parquet_file}' (FORMAT PARQUET)
-            """
-            )
+            """)
         except Exception as e:
             print(f"Error converting {base_name}: {str(e)}")
 
@@ -12484,13 +12476,11 @@ def vector_to_gpkg_batch(input_dir, output_dir=None, file_ext=".geojson", **kwar
 
         try:
             # Execute the conversion
-            conn.execute(
-                f"""
+            conn.execute(f"""
                 COPY (
                     SELECT * FROM ST_Read('{file}')
                 ) TO '{gpkg_file}' (FORMAT GDAL, DRIVER 'GPKG')
-            """
-            )
+            """)
         except Exception as e:
             print(f"Error converting {base_name}: {str(e)}")
 
@@ -12549,13 +12539,11 @@ def vector_to_geojson_batch(input_dir, output_dir=None, file_ext=".shp", **kwarg
 
         try:
             # Execute the conversion
-            conn.execute(
-                f"""
+            conn.execute(f"""
                 COPY (
                     SELECT * FROM ST_Read('{file}')
                 ) TO '{gpkg_file}' (FORMAT GDAL, DRIVER 'GeoJSON')
-            """
-            )
+            """)
         except Exception as e:
             print(f"Error converting {base_name}: {str(e)}")
 
@@ -12953,11 +12941,9 @@ def split_parquet_by_geometries(
         read_str = f"ST_Read('{input_vector}')"
 
     # Get all state IDs from the parquet file
-    state_ids = con.execute(
-        f"""
+    state_ids = con.execute(f"""
         SELECT {column} FROM {read_str}
-        """
-    ).fetchall()
+        """).fetchall()
 
     state_ids.sort()
 
@@ -14545,9 +14531,7 @@ def generate_index_html(directory: str, output: str = "index.html") -> None:
 <body>
     <h1>Index of {directory}</h1>
     <ul>
-""".format(
-        directory=directory
-    )
+""".format(directory=directory)
 
     # Add each file to the HTML list
     for file in files:
